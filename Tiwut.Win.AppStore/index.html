@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiwut Win AppStore</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 20px 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        header {
+            text-align: center;
+            padding-bottom: 20px;
+        }
+        header h1 {
+            color: #0056b3;
+            font-size: 2.5em;
+        }
+        .version {
+            font-size: 1.2em;
+            color: #666;
+            margin-top: -10px;
+            margin-bottom: 20px;
+        }
+        .screenshots {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .screenshots img {
+            max-width: 45%;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 0 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .note {
+            text-align: center;
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-size: 1.1em;
+        }
+        .note p {
+            margin: 5px 0;
+        }
+        h2 {
+            color: #0056b3;
+            border-bottom: 2px solid #0056b3;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #007bff;
+            margin-top: 25px;
+        }
+        ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .code-block {
+            background-color: #eef;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            overflow-x: auto;
+        }
+        .horizontal-line {
+            border: 0;
+            height: 1px;
+            background-color: #ccc;
+            margin: 40px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Tiwut Win AppStore</h1>
+        <p class="version">v1.1</p>
+    </header>
+
+    <div class="screenshots">
+        <img src="https://github.com/user-attachments/assets/77625bc9-4789-4db0-a4e5-83c7acf7bb5c" alt="Screenshot of Tiwut Win AppStore">
+        <img src="https://github.com/user-attachments/assets/f552af85-54d8-441f-b040-e9cbaf4574bb" alt="Another screenshot of Tiwut Win AppStore">
+    </div>
+
+    <div class="note">
+        <p>🇬🇧 The .exe just needs to be run without any further installation.</p>
+        <p>🇩🇪 Die .exe muss nur ohne weitere Installation ausgeführt werden.</p>
+        <p>🇪🇸 El .exe sólo necesita ejecutarse sin ninguna instalación adicional.</p>
+    </div>
+
+    <hr class="horizontal-line">
+
+    <h2>Tiwut Win AppStore - User Manual</h2>
+
+    <hr class="horizontal-line">
+
+    <h3>🇬🇧 English: User Manual</h3>
+
+    <section>
+        <h4>1. Introduction</h4>
+        <p>Welcome to the <strong>Tiwut Win AppStore</strong>! This application provides a modern, graphical user interface (GUI) to manage software on your Windows PC. Instead of using the command line, you can now search, install, update, and uninstall applications from popular package managers like <strong>winget</strong>, <strong>Chocolatey</strong>, and <strong>Scoop</strong> with just a few clicks.</p>
+    </section>
+
+    <section>
+        <h4>2. Prerequisites</h4>
+        <p>Before you can use the application, you must ensure the following are installed on your system:</p>
+        <ul>
+            <li><strong>1. Python:</strong> The application is written in Python. Download it from <a href="https://www.python.org" target="_blank">python.org</a>. During installation, make sure to check the box that says "Add Python to PATH".</li>
+            <li><strong>2. Required Python Libraries:</strong> Open PowerShell or Command Prompt and run this command:<br><div class="code-block"><code>pip install customtkinter Pillow duckduckgo-search requests packaging</code></div></li>
+            <li><strong>3. Package Managers (Recommended):</strong> For the best experience, you should have the package managers installed.
+                <ul>
+                    <li><strong>winget:</strong> Usually comes pre-installed with modern Windows 10/11.</li>
+                    <li><strong>Chocolatey:</strong> Follow the installation guide at <a href="https://www.chocolatey.org/install" target="_blank">chocolatey.org/install</a></li>
+                    <li><strong>Scoop:</strong> Follow the installation guide at <a href="https://www.scoop.sh" target="_blank">scoop.sh</a></li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h4>3. Running the Application</h4>
+        <ol>
+            <li>Save the final Python code as a file named <code>TiwutWinAppStore.py</code>.</li>
+            <li>Open PowerShell or Command Prompt in the same directory where you saved the file.</li>
+            <li>Run the application with the command:<br><div class="code-block"><code>python TiwutWinAppStore.py</code></div></li>
+        </ol>
+    </section>
+
+    <section>
+        <h4>4. Interface Overview</h4>
+        <p>The application is divided into two main tabs:</p>
+        <ul>
+            <li><strong>Search & Install:</strong> Find and install new applications.</li>
+            <li><strong>Installed Apps:</strong> View, filter, update, and uninstall the software you already have.</li>
+            <li><strong>Status Bar:</strong> At the bottom, a status bar provides feedback on current operations.</li>
+            <li><strong>Progress Bar:</strong> The progress bar activates during long tasks like searching, refreshing, or installing.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h4>5. Features</h4>
+
+        <h5>5.1. Search & Install Tab</h5>
+        <ul>
+            <li><strong>Searching for Apps:</strong> Type the name of an application (e.g., <code>vscode</code>, <code>7zip</code>) into the top search bar and press Enter or click the "Search" button.</li>
+            <li><strong>Selecting Sources:</strong> Use the checkboxes (<code>winget</code>, <code>Chocolatey</code>, <code>Scoop</code>) to choose which package managers to include in your search.</li>
+            <li><strong>Installing an App:</strong> In the results list, simply click the blue "Install" button next to an application. The installation will start, and the progress bar will be active until it's complete.</li>
+        </ul>
+
+        <h5>5.2. Installed Apps Tab</h5>
+        <p>This tab is your central hub for managing existing software.</p>
+        <ul>
+            <li><strong>Refreshing the List:</strong> Click the "Refresh List" button. The app will perform a two-phase check:
+                <ol>
+                    <li>A quick scan to find all installed packages.</li>
+                    <li>A deeper verification to confirm which ones truly have updates available.</li>
+                </ol>
+            </li>
+            <li><strong>Filtering Your Apps:</strong> Use the search bar at the top of this tab to instantly filter the list. The list updates in real-time as you type.</li>
+            <li><strong>Updating an App:</strong> If an application has a verified update, a bright orange "Update" button will appear next to it. Click it to update that specific application.</li>
+            <li><strong>Uninstalling an App:</strong> Every application in the list has a red "Uninstall" button. Clicking it will remove the software from your system.</li>
+            <li><strong>Updating All Apps:</strong> Click the "Update All" button to automatically update all applications that have a verified update available. The apps will be updated one by one to ensure system stability. The list will refresh automatically when the process is complete.</li>
+        </ul>
+    </section>
+
+    <hr class="horizontal-line">
+    <hr class="horizontal-line">
+
+    <h3>🇩🇪 Deutsch: Benutzerhandbuch</h3>
+
+    <section>
+        <h4>1. Einleitung</h4>
+        <p>Willkommen im <strong>Tiwut Win AppStore</strong>! Diese Anwendung bietet eine moderne, grafische Benutzeroberfläche (GUI) zur Verwaltung von Software auf Ihrem Windows-PC. Anstatt die Kommandozeile zu verwenden, können Sie nun Anwendungen von beliebten Paketmanagern wie <strong>winget</strong>, <strong>Chocolatey</strong> und <strong>Scoop</strong> mit nur wenigen Klicks suchen, installieren, aktualisieren und deinstallieren.</p>
+    </section>
+    
+    <section>
+        <h4>2. Voraussetzungen</h4>
+        <p>Bevor Sie die Anwendung nutzen können, stellen Sie bitte sicher, dass die folgenden Komponenten auf Ihrem System installiert sind:</p>
+        <ul>
+            <li><strong>1. Python:</strong> Die Anwendung ist in Python geschrieben. Laden Sie es von <a href="https://www.python.org" target="_blank">python.org</a> herunter. Achten Sie bei der Installation darauf, die Option "Add Python to PATH" anzukreuzen.</li>
+            <li><strong>2. Benötigte Python-Bibliotheken:</strong> Öffnen Sie PowerShell oder die Eingabeaufforderung und führen Sie diesen Befehl aus:<br><div class="code-block"><code>pip install customtkinter Pillow duckduckgo-search requests packaging</code></div></li>
+            <li><strong>3. Paketmanager (Empfohlen):</strong> Für die beste Funktionalität sollten die Paketmanager installiert sein.
+                <ul>
+                    <li><strong>winget:</strong> Ist normalerweise auf modernen Windows 10/11-Systemen vorinstalliert.</li>
+                    <li><strong>Chocolatey:</strong> Folgen Sie der Installationsanleitung auf <a href="https://www.chocolatey.org/install" target="_blank">chocolatey.org/install</a></li>
+                    <li><strong>Scoop:</strong> Folgen Sie der Installationsanleitung auf <a href="https://www.scoop.sh" target="_blank">scoop.sh</a></li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    
+    <section>
+        <h4>3. Starten der Anwendung</h4>
+        <ol>
+            <li>Speichern Sie den finalen Python-Code in einer Datei mit dem Namen <code>TiwutWinAppStore.py</code>.</li>
+            <li>Öffnen Sie PowerShell oder die Eingabeaufforderung im selben Verzeichnis, in dem Sie die Datei gespeichert haben.</li>
+            <li>Starten Sie die Anwendung mit dem Befehl:<br><div class="code-block"><code>python TiwutWinAppStore.py</code></div></li>
+        </ol>
+    </section>
+    
+    <section>
+        <h4>4. Überblick der Benutzeroberfläche</h4>
+        <p>Die Anwendung ist in zwei Haupt-Registerkarten (Tabs) unterteilt:</p>
+        <ul>
+            <li><strong>Suchen & Installieren:</strong> Finden und installieren Sie neue Anwendungen.</li>
+            <li><strong>Installierte Apps:</strong> Sehen, filtern, aktualisieren und deinstallieren Sie Ihre bereits vorhandene Software.</li>
+            <li><strong>Statusleiste:</strong> Eine Leiste am unteren Rand gibt Feedback zu aktuellen Vorgängen.</li>
+            <li><strong>Fortschrittsbalken:</strong> Der Fortschrittsbalken wird bei längeren Aktionen wie Suchen, Aktualisieren oder Installieren aktiv.</li>
+        </ul>
+    </section>
+    
+    <section>
+        <h4>5. Funktionen</h4>
+    
+        <h5>5.1. Registerkarte "Suchen & Installieren"</h5>
+        <ul>
+            <li><strong>Apps suchen:</strong> Geben Sie den Namen einer Anwendung (z.B. <code>vscode</code>, <code>7zip</code>) in die obere Suchleiste ein und drücken Sie die Eingabetaste oder klicken Sie auf die Schaltfläche "Suchen".</li>
+            <li><strong>Quellen auswählen:</strong> Nutzen Sie die Kontrollkästchen (<code>winget</code>, <code>Chocolatey</code>, <code>Scoop</code>), um auszuwählen, welche Paketmanager in Ihre Suche einbezogen werden sollen.</li>
+            <li><strong>Eine App installieren:</strong> Klicken Sie in der Ergebnisliste einfach auf die blaue "Installieren"-Schaltfläche neben einer Anwendung. Die Installation beginnt, und der Fortschrittsbalken ist aktiv, bis sie abgeschlossen ist.</li>
+        </ul>
+    
+        <h5>5.2. Registerkarte "Installierte Apps"</h5>
+        <p>Diese Registerkarte ist Ihre zentrale Anlaufstelle zur Verwaltung bestehender Software.</p>
+        <ul>
+            <li><strong>Liste aktualisieren:</strong> Klicken Sie auf die Schaltfläche "Liste aktualisieren". Die App führt eine zweistufige Prüfung durch:
+                <ol>
+                    <li>Ein schneller Scan, um alle installierten Pakete zu finden.</li>
+                    <li>Eine tiefere Verifizierung, um zu bestätigen, für welche davon wirklich Updates verfügbar sind.</li>
+                </ol>
+            </li>
+            <li><strong>Ihre Apps filtern:</strong> Verwenden Sie die Suchleiste oben in dieser Registerkarte, um die Liste sofort zu filtern. Die Liste aktualisiert sich in Echtzeit, während Sie tippen.</li>
+            <li><strong>Eine App aktualisieren:</strong> Wenn für eine Anwendung ein verifiziertes Update verfügbar ist, erscheint daneben eine leuchtend orange "Update"-Schaltfläche. Klicken Sie darauf, um diese spezifische Anwendung zu aktualisieren.</li>
+            <li><strong>Eine App deinstallieren:</strong> Jede Anwendung in der Liste hat eine rote "Deinstallieren"-Schaltfläche. Ein Klick darauf entfernt die Software von Ihrem System.</li>
+            <li><strong>Alle Apps aktualisieren:</strong> Klicken Sie auf die Schaltfläche "Alle aktualisieren", um automatisch alle Anwendungen zu aktualisieren, für die ein verifiziertes Update verfügbar ist. Die Apps werden nacheinander aktualisiert, um die Systemstabilität zu gewährleisten. Die Liste wird nach Abschluss des Vorgangs automatisch neu geladen.</li>
+        </ul>
+    </section>
+    
+    <hr class="horizontal-line">
+    <hr class="horizontal-line">
+
+    <h3>🇪🇸 Español: Manual de Usuario</h3>
+
+    <section>
+        <h4>1. Introducción</h4>
+        <p>¡Bienvenido a <strong>Tiwut Win AppStore</strong>! Esta aplicación proporciona una interfaz gráfica de usuario (GUI) moderna para gestionar software en su PC con Windows. En lugar de usar la línea de comandos, ahora puede buscar, instalar, actualizar y desinstalar aplicaciones de gestores de paquetes populares como <strong>winget</strong>, <strong>Chocolatey</strong> y <strong>Scoop</strong> con solo unos pocos clics.</p>
+    </section>
+
+    <section>
+        <h4>2. Prerrequisitos</h4>
+        <p>Antes de poder usar la aplicación, debe asegurarse de que los siguientes componentes estén instalados en su sistema:</p>
+        <ul>
+            <li><strong>1. Python:</strong> La aplicación está escrita en Python. Descárguelo desde <a href="https://www.python.org" target="_blank">python.org</a>. Durante la instalación, asegúrese de marcar la casilla que dice "Add Python to PATH".</li>
+            <li><strong>2. Bibliotecas de Python Requeridas:</strong> Abra PowerShell o el Símbolo del sistema y ejecute este comando:<br><div class="code-block"><code>pip install customtkinter Pillow duckduckgo-search requests packaging</code></div></li>
+            <li><strong>3. Gestores de Paquetes (Recomendado):</strong> Para la mejor experiencia, debería tener los gestores de paquetes instalados.
+                <ul>
+                    <li><strong>winget:</strong> Generalmente viene preinstalado con las versiones modernas de Windows 10/11.</li>
+                    <li><strong>Chocolatey:</strong> Siga la guía de instalación en <a href="https://www.chocolatey.org/install" target="_blank">chocolatey.org/install</a></li>
+                    <li><strong>Scoop:</strong> Siga la guía de instalación en <a href="https://www.scoop.sh" target="_blank">scoop.sh</a></li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h4>3. Ejecutar la Aplicación</h4>
+        <ol>
+            <li>Guarde el código final de Python en un archivo con el nombre <code>TiwutWinAppStore.py</code>.</li>
+            <li>Abra PowerShell o el Símbolo del sistema en el mismo directorio donde guardó el archivo.</li>
+            <li>Ejecute la aplicación con el comando:<br><div class="code-block"><code>python TiwutWinAppStore.py</code></div></li>
+        </ol>
+    </section>
+
+    <section>
+        <h4>4. Resumen de la Interfaz</h4>
+        <p>La aplicación se divide en dos pestañas principales:</p>
+        <ul>
+            <li><strong>Buscar e Instalar:</strong> Encuentre e instale nuevas aplicaciones.</li>
+            <li><strong>Aplicaciones Instaladas:</strong> Vea, filtre, actualice y desinstale el software que ya tiene.</li>
+            <li><strong>Barra de Estado:</strong> En la parte inferior, una barra de estado proporciona información sobre las operaciones actuales.</li>
+            <li><strong>Barra de Progreso:</strong> La barra de progreso se activa durante tareas largas como buscar, refrescar o instalar.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h4>5. Características</h4>
+
+        <h5>5.1. Pestaña "Buscar e Instalar"</h5>
+        <ul>
+            <li><strong>Buscar Aplicaciones:</strong> Escriba el nombre de una aplicación (p. ej., <code>vscode</code>, <code>7zip</code>) en la barra de búsqueda superior y presione Enter o haga clic en el botón "Buscar".</li>
+            <li><strong>Seleccionar Fuentes:</strong> Use las casillas de verificación (<code>winget</code>, <code>Chocolatey</code>, <code>Scoop</code>) para elegir qué gestores de paquetes incluir en su búsqueda.</li>
+            <li><strong>Instalar una Aplicación:</strong> En la lista de resultados, simplemente haga clic en el botón azul "Instalar" junto a una aplicación. La instalación comenzará y la barra de progreso estará activa hasta que se complete.</li>
+        </ul>
+
+        <h5>5.2. Pestaña "Aplicaciones Instaladas"</h5>
+        <p>Esta pestaña es su centro de control para gestionar el software existente.</p>
+        <ul>
+            <li><strong>Refrescar la Lista:</strong> Haga clic en el botón "Refrescar Lista". La aplicación realizará una verificación en dos fases:
+                <ol>
+                    <li>Un escaneo rápido para encontrar todos los paquetes instalados.</li>
+                    <li>Una verificación más profunda para confirmar cuáles de ellos tienen realmente actualizaciones disponibles.</li>
+                </ol>
+            </li>
+            <li><strong>Filtrar sus Aplicaciones:</strong> Use la barra de búsqueda en la parte superior de esta pestaña para filtrar instantáneamente la lista. La lista se actualiza en tiempo real a medida que escribe.</li>
+            <li><strong>Actualizar una Aplicación:</strong> Si una aplicación tiene una actualización verificada, aparecerá un botón naranja brillante de "Actualizar" a su lado. Haga clic en él para actualizar esa aplicación específica.</li>
+            <li><strong>Desinstalar una Aplicación:</strong> Cada aplicación en la lista tiene un botón rojo de "Desinstalar". Al hacer clic en él, se eliminará el software de su sistema.</li>
+            <li><strong>Actualizar Todo:</strong> Haga clic en el botón "Actualizar Todo" para actualizar automáticamente todas las aplicaciones que tengan una actualización verificada disponible. Las aplicaciones se actualizarán una por una para garantizar la estabilidad del sistema. La lista se refrescará automáticamente cuando el proceso finalice.</li>
+        </ul>
+    </section>
+</div>
+
+</body>
+</html>
