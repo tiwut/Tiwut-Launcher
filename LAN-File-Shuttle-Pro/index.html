@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LAN File Shuttle Pro: Application Guide</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f7f9;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 10px;
+            margin-top: 2em;
+        }
+        h3 {
+            color: #2980b9;
+            margin-top: 1.5em;
+        }
+        p {
+            margin-bottom: 1em;
+        }
+        .icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+        .intro-text {
+            text-align: center;
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 2em;
+        }
+        .key-features, .user-manual {
+            padding: 20px;
+            background-color: #ecf0f1;
+            border-radius: 8px;
+            margin-top: 2em;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+        li::before {
+            content: '•';
+            color: #2980b9;
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        strong {
+            color: #2c3e50;
+        }
+        .section-separator {
+            border: 0;
+            height: 1px;
+            background: #bdc3c7;
+            margin: 30px 0;
+        }
+        .list-item-title {
+            font-weight: bold;
+            color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1><span class="icon">🚀</span> LAN File Shuttle Pro: Application Guide</h1>
+        <p class="intro-text">
+            LAN File Shuttle Pro is a desktop application written in Python that allows you to easily <strong>send and receive files</strong> over a local area network (LAN). It features a simple graphical user interface (GUI) and uses multi-threading to handle transfers in the background, ensuring the application remains responsive.
+        </p>
+    </header>
+
+    <hr class="section-separator">
+
+    <section class="key-features">
+        <h2><span class="icon">✨</span> Key Features</h2>
+        <ul>
+            <li><strong>Automatic Receiver</strong>: The application starts the file receiver automatically upon launch, so you don't need to manually click a button to begin listening for files.</li>
+            <li><strong>Network Discovery</strong>: It automatically scans the network for other devices running the same application, making it easy to find a recipient.</li>
+            <li><strong>Multi-file Transfer</strong>: Send multiple files in a single transfer session.</li>
+            <li><strong>Progress and Speed Display</strong>: Monitor the real-time progress and transfer speed of your files.</li>
+            <li><strong>Logging</strong>: A built-in log panel tracks all application activities, transfers, and network events.</li>
+        </ul>
+    </section>
+
+    <hr class="section-separator">
+
+    <section class="user-manual">
+        <h2><span class="icon">📝</span> User Manual</h2>
+
+        <h3>A. The Main Interface</h3>
+        <p>The application's window is divided into three main sections: <strong>Send File(s)</strong>, <strong>Receive File</strong>, and <strong>Status & Logs</strong>.</p>
+
+        <ul>
+            <li><span class="icon">📤</span> <span class="list-item-title">Send File(s)</span>
+                <ul>
+                    <li><strong>Available Devices on Network</strong>: This list automatically populates with other computers on your network that are running the same application. A green circle indicates a device is ready to receive files.</li>
+                    <li><strong>Files to Send</strong>: Use the "Select File(s)..." button to browse and add files to your transfer queue. The "Clear List" button removes all files from the queue.</li>
+                    <li><strong>Target IP</strong>: The IP address of the recipient. You can either type it manually or click on a device from the "Available Devices" list to auto-fill this field.</li>
+                    <li><strong>Start Transfer</strong>: Click this button to begin sending the files in your queue to the specified target.</li>
+                </ul>
+            </li>
+            
+            <li><span class="icon">📥</span> <span class="list-item-title">Receive File</span>
+                <ul>
+                    <li><strong>Save Location</strong>: This shows the directory where received files will be saved. You can change this folder by clicking "Select Folder...".</li>
+                    <li><strong>Listen IP & Port</strong>: These fields show the IP address and port where the application is listening for incoming files. The receiver is <strong>always running automatically</strong> when the application is open.</li>
+                </ul>
+            </li>
+
+            <li><span class="icon">📋</span> <span class="list-item-title">Status & Logs</span>
+                <ul>
+                    <li>This panel provides a chronological log of all application events, including server startup messages, transfer statuses, and any errors that occur. Use the "Clear Log" button to empty the log panel.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <hr class="section-separator">
+
+        <h3>B. Step-by-Step Instructions</h3>
+
+        <h4>To Send a File:</h4>
+        <ol>
+            <li>Launch the application.</li>
+            <li>Wait for the "Available Devices" list to populate.</li>
+            <li>Click on the device you want to send files to. Its IP address will appear in the <strong>Target IP</strong> field.</li>
+            <li>Click "Select File(s)..." and choose one or more files from your computer. The files will be added to the "Files to Send" list.</li>
+            <li>Click the "<strong>Start Transfer</strong>" button. The progress bar will update as the files are sent.</li>
+            <li>A message box will appear upon completion, indicating success or failure.</li>
+        </ol>
+
+        <h4>To Receive a File:</h4>
+        <ol>
+            <li>Simply launch the application. The receiver starts automatically.</li>
+            <li>Ensure your firewall is not blocking the application's port (default is 65432).</li>
+            <li>Instruct the sender to launch the application, select your device from their list, and send the files.</li>
+            <li>The received files will be automatically saved to the folder specified in the <strong>Save Location</strong> field.</li>
+        </ol>
+    </section>
+
+</div>
+
+</body>
+</html>
