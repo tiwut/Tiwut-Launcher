@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PyToExePro - Benutzerhandbuch</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 20px 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        h1, h2, h3, h4 {
+            color: #2c3e50;
+        }
+        h1 {
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h3 {
+            border-left: 4px solid #3498db;
+            padding-left: 10px;
+        }
+        .version {
+            font-style: italic;
+            color: #7f8c8d;
+        }
+        ul, ol {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        .status-green {
+            color: green;
+            font-weight: bold;
+        }
+        .status-red {
+            color: red;
+            font-weight: bold;
+        }
+        pre {
+            background-color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #e0e6e9;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        .note {
+            background-color: #e8f4fd;
+            border-left: 5px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .tip {
+            background-color: #f9f9e2;
+            border-left: 5px solid #f1c40f;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1># PyToExePro</h1>
+        <h2>Py-to-EXE-Pro – Benutzerhandbuch</h2>
+        <p class="version">Version 1.1</p>
+        <p>Willkommen bei Py-to-EXE-Pro! Dieses Handbuch führt Sie durch alle Funktionen der Anwendung, damit Sie mühelos Ihre Python-Skripte in eigenständige Windows-Programme (.exe) umwandeln können.</p>
+
+        <hr>
+
+        <h3>1. Einführung: Was ist Py-to-EXE-Pro?</h3>
+        <p>Py-to-EXE-Pro ist eine grafische Benutzeroberfläche (GUI) für das mächtige Kommandozeilen-Tool <strong>PyInstaller</strong>. Es wurde entwickelt, um den EXE-Erstellungsprozess so einfach und transparent wie möglich zu gestalten, insbesondere für Entwickler, die sich nicht mit der Kommandozeile auseinandersetzen möchten.</p>
+        <p>Mit nur wenigen Klicks können Sie:</p>
+        <ul>
+            <li>Ihr Python-Skript auswählen.</li>
+            <li>Wichtige Optionen wie das Ausgabeformat und ein benutzerdefiniertes Icon festlegen.</li>
+            <li>Den Erstellungsprozess live mitverfolgen.</li>
+            <li>Am Ende eine fertige .exe-Datei erhalten, die Sie mit anderen teilen können.</li>
+        </ul>
+
+        <hr>
+
+        <h3>2. Systemvoraussetzungen</h3>
+        <p>Damit Py-to-EXE-Pro ordnungsgemäß funktioniert, muss Ihr System Folgendes aufweisen:</p>
+        <ul>
+            <li><strong>Windows Betriebssystem</strong> (7, 8, 10, 11)</li>
+            <li><strong>Python</strong> muss installiert und zum System-PATH hinzugefügt sein. (Dies ist eine Standardoption bei der Python-Installation).</li>
+            <li><strong>pip</strong>, der Python-Paketmanager, muss funktionsfähig sein.</li>
+        </ul>
+
+        <hr>
+
+        <h3>3. Schritt-für-Schritt-Anleitung</h3>
+        <p>Die Anwendungsoberfläche ist in logische Schritte unterteilt.</p>
+
+        <h4>Schritt 1: Systemprüfung und Abhängigkeiten</h4>
+        <p>Bevor Sie beginnen können, muss das PyInstaller-Tool auf Ihrem System installiert sein.</p>
+        <ol>
+            <li><strong>Statusanzeige:</strong> Direkt nach dem Start prüft die Anwendung, ob PyInstaller verfügbar ist.
+                <ul>
+                    <li><span class="status-green"><strong>Grün (Ready to build!):</strong></span> Alles ist bereit. PyInstaller wurde gefunden.</li>
+                    <li><span class="status-red"><strong>Rot (PyInstaller not found!):</strong></span> PyInstaller fehlt. Sie können nicht fortfahren, bis es installiert ist.</li>
+                </ul>
+            </li>
+            <li><strong>Button "Show Install Instructions":</strong> Ist der Status rot, klicken Sie auf diesen Button. Es öffnet sich ein Fenster mit einfachen Anweisungen:
+                <ul>
+                    <li>Öffnen Sie eine Eingabeaufforderung (CMD) oder PowerShell.</li>
+                    <li>Führen Sie den Befehl <code>pip install pyinstaller</code> aus.</li>
+                    <li>Starten Sie Py-to-EXE-Pro nach der Installation neu.</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h4>Schritt 2: Ihr Skript auswählen</h4>
+        <ol>
+            <li><strong>Python Script (.py):</strong> Dies ist das Herzstück Ihrer Anwendung.</li>
+            <li><strong>Browse...:</strong> Klicken Sie auf diesen Button, um den Dateiexplorer zu öffnen und Ihr Haupt-Python-Skript auszuwählen (z.B. <code>main.py</code> oder <code>app.py</code>). Der Pfad wird automatisch in das Textfeld eingetragen.</li>
+        </ol>
+
+        <h4>Schritt 3: Build-Optionen konfigurieren</h4>
+        <p>Hier legen Sie fest, <em>wie</em> Ihre .exe-Datei erstellt werden soll.</p>
+        <ul>
+            <li><strong>Output Type:</strong>
+                <ul>
+                    <li><strong>One-File (.exe):</strong> Erstellt eine einzelne, eigenständige .exe-Datei. Dies ist ideal für die einfache Weitergabe. Der erste Start kann etwas länger dauern, da die Dateien temporär entpackt werden müssen.</li>
+                    <li><strong>One-Directory (Folder):</strong> Erstellt einen Ordner, der die .exe-Datei zusammen mit allen Abhängigkeiten (DLLs, etc.) enthält. Diese Methode hat oft eine schnellere Startzeit.</li>
+                </ul>
+            </li>
+            <li><strong>Console:</strong>
+                <ul>
+                    <li><strong>Windowless (for GUI):</strong> Wählen Sie dies für grafische Anwendungen (z.B. mit Tkinter, PyQt, CustomTkinter). Es wird kein schwarzes Konsolenfenster im Hintergrund angezeigt.</li>
+                    <li><strong>Show Console Window:</strong> Wählen Sie dies <strong>für Skripte, die Textausgaben produzieren</strong> oder keine eigene grafische Oberfläche haben. Wenn Sie diese Option für ein GUI-Programm wählen, erscheint ein Konsolenfenster im Hintergrund, was für das Debugging nützlich sein kann.</li>
+                </ul>
+            </li>
+            <li><strong>Icon File (.ico):</strong>
+                <ul>
+                    <li><strong>Browse...:</strong> Wählen Sie eine Icon-Datei im .ico-Format aus, um Ihrer Anwendung ein professionelles Aussehen zu verleihen.</li>
+                    <li><strong>Clear:</strong> Entfernt das Icon aus der Auswahl.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h4>Schritt 4: Das Executable erstellen</h4>
+        <ol>
+            <li><strong>BUILD .EXE:</strong> Sobald alle Einstellungen vorgenommen wurden, klicken Sie auf diesen Button, um den Prozess zu starten. Der Button wird während des Prozesses deaktiviert.</li>
+            <li><strong>Fortschritt & Log:</strong>
+                <ul>
+                    <li><strong>Progress Bar:</strong> Zeigt Ihnen grob an, in welchem Stadium sich der Build-Prozess gerade befindet.</li>
+                    <li><strong>Log Window:</strong> Hier sehen Sie die <strong>Live-Ausgabe</strong> von PyInstaller. Dies ist extrem nützlich, um den Fortschritt detailliert zu verfolgen und um Fehlermeldungen zu sehen, falls etwas schiefgeht.</li>
+                </ul>
+            </li>
+            <li><strong>Open Output Folder:</strong> Sobald der Prozess erfolgreich abgeschlossen wurde, wird dieser Button aktiv. Ein Klick darauf öffnet den <code>dist</code>-Ordner, der Ihre fertige `.exe`-Datei enthält. Dieser Ordner wird im selben Verzeichnis wie Ihr ursprüngliches Python-Skript erstellt.</li>
+        </ol>
+
+        <hr>
+
+        <h3>4. Fehlerbehebung</h3>
+        <p>Manchmal läuft nicht alles nach Plan. Hier sind Lösungen für häufige Probleme:</p>
+        <ul>
+            <li>
+                <strong>Problem:</strong> Meine erstellte .exe-Datei wird von meinem Antivirenprogramm als Virus markiert.
+                <br><strong>Lösung:</strong> Dies ist ein häufiger "False Positive"-Fehler. PyInstaller bündelt ein Skript mit einem Interpreter, was einige Antivirenprogramme misstrauisch macht. Wenn Sie dem Code vertrauen, legen Sie eine Ausnahme in Ihrem Antivirenprogramm an. Für eine zweite Meinung können Sie Ihre .exe-Datei auf VirusTotal.com (https://www.virustotal.com/) hochladen.
+            </li>
+            <li>
+                <strong>Problem:</strong> Die .exe-Datei startet und schließt sich sofort wieder.
+                <br><strong>Lösung:</strong> Das bedeutet fast immer, dass Ihr Skript einen Fehler hatte. Erstellen Sie die .exe-Datei neu, aber wählen Sie diesmal die Option "Show Console Window". Wenn Sie die .exe-Datei nun ausführen, bleibt das Konsolenfenster lange genug geöffnet, um die Fehlermeldung zu lesen.
+            </li>
+            <li>
+                <strong>Problem:</strong> Die .exe meldet einen <code>ModuleNotFoundError</code>, obwohl das Modul auf meinem PC installiert ist.
+                <br><strong>Lösung:</strong> PyInstaller erkennt manchmal "versteckte" Importe nicht. Sie müssen PyInstaller manuell anweisen, dieses Modul mit aufzunehmen. Dies ist leider nicht über die GUI möglich. Sie müssten PyInstaller von der Kommandozeile aus mit der Option <code>--hidden-import MODULNAME</code> ausführen.
+            </li>
+            <li>
+                <strong>Problem:</strong> Meine .exe kann ihre zugehörigen Dateien (Bilder, Konfigurationsdateien) nicht finden.
+                <br><strong>Lösung:</strong> Wenn eine .exe-Datei ausgeführt wird, ist ihr "Arbeitsverzeichnis" nicht unbedingt dasselbe wie das Ihres Skripts. Relative Pfade wie <code>img/logo.png</code> funktionieren nicht mehr. Sie müssen absolute Pfade verwenden. Ein bewährtes Code-Snippet, um den Pfad zur .exe zu finden, ist:
+                <pre><code>import sys
+import os
+
+if getattr(sys, 'frozen', False):
+    # Wenn als .exe ausgeführt
+    application_path = os.path.dirname(sys.executable)
+else:
+    # Wenn als .py-Skript ausgeführt
+    application_path = os.path.dirname(__file__)
+
+# Beispiel für den Zugriff auf eine Datei
+path_to_logo = os.path.join(application_path, 'data', 'logo.png')
+</code></pre>
+                Sie müssen die zusätzlichen Dateien (z.B. den <code>data</code>-Ordner) manuell in den <code>dist</code>-Ordner neben Ihre .exe kopieren.
+            </li>
+        </ul>
+    </div>
+</body>
+</html>
