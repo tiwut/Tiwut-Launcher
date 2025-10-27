@@ -1,22 +1,102 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tiwut App Store</title>
+    <title>Tiwut-Launcher | High-Performance App Hub</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <h1>Tiwut App Store</h1>
-        <p>Entdecke neue Apps und installiere sie mit einem Klick.</p>
-    </header>
-    <main>
-        <div id="app-grid" class="app-grid">
-            <!-- App-Karten werden hier per JavaScript eingefügt -->
-            <div class="loading-spinner"></div>
+
+    <div class="background-canvas"></div>
+
+    <header class="main-header">
+        <div class="header-blur-container">
+            <nav class="container">
+                <a href="#" class="logo">Tiwut-Launcher</a>
+                <div class="nav-links">
+                    <a href="#downloads">Download</a>
+                    <a href="#features">Features</a>
+                    <a href="https://github.com/tiwut?tab=repositories" target="_blank">Tiwut Project</a>
+                </div>
+            </nav>
         </div>
+    </header>
+
+    <main>
+        <section id="hero" class="hero-section">
+            <div class="container">
+                <h1 class="animate-on-scroll">Tiwut-Launcher</h1>
+                <p class="subtitle animate-on-scroll" data-animation-delay="100">
+                    The centralized hub to manage and launch all desktop applications from the Tiwut project.
+                </p>
+                <a href="#downloads" class="btn btn-primary animate-on-scroll" data-animation-delay="200">Download Now</a>
+            </div>
+        </section>
+
+        <section id="downloads" class="section-padded">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">⬇️ Get Your Launcher</h2>
+                
+                <div class="download-grid">
+                    
+                    <div class="platform-card windows-card animate-on-scroll">
+                        <h3>Windows</h3>
+                        <p class="tagline">Official Installer & Portable</p>
+                        <div class="download-links">
+                            <a href="https://github.com/tiwut/Tiwut-Launcher/releases/download/python/setup_Tiwut_Launcher_v1.1.exe" class="btn btn-download">Installer v1.1</a>
+                            <a href="https://github.com/tiwut/Tiwut-Launcher/releases/download/python/Tiwut-Launcher-Setup_v1.2.exe" class="btn btn-download">Installer v1.2</a>
+                            <a href="https://github.com/tiwut/Tiwut-Launcher/releases/download/python/v1.9-stable.exe" class="btn btn-download-secondary">Portable v1.9</a>
+                        </div>
+                    </div>
+
+                    <div class="platform-card linux-card animate-on-scroll" data-animation-delay="100">
+                        <h3>Linux</h3>
+                        <p class="tagline">Shell Script Installers (.sh)</p>
+                        <div class="download-links">
+                            <a href="https://github.com/tiwut/Tiwut-Launcher/releases/download/python/install-tiwut-launcher.sh" class="btn btn-download">Installer (.sh)</a>
+                            <a href="https://github.com/tiwut/Tiwut-Launcher/releases/download/python/uninstall-tiwut-launcher.sh" class="btn btn-download-secondary">Uninstaller (.sh)</a>
+                        </div>
+                        <p class="note">Execute the script via: <code>chmod +x install-tiwut-launcher.sh && ./install-tiwut-launcher.sh</code></p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="section-padded section-dark">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">✨ Core Benefits</h2>
+                
+                <div class="feature-grid">
+                    <div class="feature-item animate-on-scroll">
+                        <span class="feature-icon">🚀</span>
+                        <h3>Optimized Performance</h3>
+                        <p>Platform-specific source code (`main.py` for Linux, `v2.5stable.py` for Windows) ensures a native and fluid experience.</p>
+                    </div>
+                    <div class="feature-item animate-on-scroll" data-animation-delay="100">
+                        <span class="feature-icon">📦</span>
+                        <h3>Centralized Management</h3>
+                        <p>Discover, install, launch, and manage all your Tiwut apps through one modern, unified interface.</p>
+                    </div>
+                    <div class="feature-item animate-on-scroll" data-animation-delay="200">
+                        <span class="feature-icon">🛠️</span>
+                        <h3>Open Source & Transparent</h3>
+                        <p>The complete source code is available on GitHub, reflecting our commitment to transparency.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2025 Tiwut Project | A hobby project by <a href="https://github.com/tiwut" target="_blank">Tiwut</a>.</p>
+        </div>
+    </footer>
+
     <script src="script.js"></script>
 </body>
 </html>
