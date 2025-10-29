@@ -8,25 +8,31 @@ import subprocess
 import ssl
 import shutil
 
-# --- Configuration ---
-# All URLs now use http as requested to avoid potential redirect/SSL issues.
+# --- WICHTIGSTE ÄNDERUNG: ABSOLUTE PFADE ERMITTELN ---
+# Ermittelt den absoluten Pfad des Verzeichnisses, in dem sich dieses Skript befindet.
+# Das macht das Skript standortunabhängig und löst alle Pfadprobleme.
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# --- Konfiguration (verwendet jetzt absolute Pfade) ---
 SYS_TIWUT_URL = "http://launcher.tiwut.de/Linux/sys.tiwut"
 MAIN_PY_URL = "http://launcher.tiwut.de/Linux/Launcher/main.py"
 COMMANDS_URL = "http://launcher.tiwut.de/Linux/Updater/sys_modul.tiwut"
-LOCAL_SYS_TIWUT = "sys.tiwut"
-LAUNCHER_DIR = "Launcher"
-MAIN_PY_PATH = os.path.join(LAUNCHER_DIR, "main.py")
 
-# --- SSL Context (still good practice in case a URL is changed back to https) ---
+# Erstellt absolute Pfade für alle lokalen Dateien und Ordner
+LOCAL_SYS_TIWUT = os.path.join(SCRIPT_DIR, "sys.tiwut")
+LAUNCHER_DIR = os.path.join(SCRIPT_DIR, "Launcher")
+MAIN_PY_PATH = os.path.join(LAUNCHER_DIR, "main.py")
+COMMANDS_FILE_PATH = os.path.join(SCRIPT_DIR, "sys_modul.tiwut")
+
+# --- SSL Context ---
 try:
     ssl_context = ssl._create_unverified_context()
 except AttributeError:
     pass
 
-# --- Functions ---
+# --- Funktionen (unverändert, aber arbeiten jetzt mit absoluten Pfaden) ---
 
 def show_info_window(message, duration_ms=4000):
-    """Displays a simple information window."""
     root = tk.Tk()
     root.title("Process Info")
     root.geometry("550x170")
@@ -40,7 +46,6 @@ def show_info_window(message, duration_ms=4000):
     root.mainloop()
 
 def get_online_hash(url):
-    """Gets the SHA-256 hash of content from a URL."""
     try:
         with urllib.request.urlopen(url, context=ssl_context) as response:
             if response.status == 200:
@@ -49,18 +54,12 @@ def get_online_hash(url):
         raise ConnectionError(f"Could not fetch hash from {url}: {e}")
 
 def get_local_hash(filepath):
-    """Calculates the SHA-256 hash of a local file."""
     if not os.path.exists(filepath):
         return None
     with open(filepath, 'rb') as f:
         return hashlib.sha256(f.read()).hexdigest()
 
 def download_file(url, local_path):
-    """
-    Downloads a file with improved error handling to distinguish between
-    network and filesystem errors.
-    """
-    # Step 1: Download data into memory
     try:
         request = urllib.request.Request(url)
         with urllib.request.urlopen(request, context=ssl_context) as response:
@@ -68,22 +67,19 @@ def download_file(url, local_path):
                 raise ConnectionError(f"Server returned status {response.status}")
             data = response.read()
     except Exception as e:
-        # If this part fails, it's a network-related problem.
         raise ConnectionError(f"Network error while downloading {url}: {e}")
 
-    # Step 2: Write the downloaded data to a local file
     try:
+        # Diese Zeile funktioniert jetzt zuverlässig, da local_path absolut ist
         os.makedirs(os.path.dirname(local_path), exist_ok=True)
         with open(local_path, 'wb') as out_file:
             out_file.write(data)
     except Exception as e:
-        # If this part fails, it's a filesystem (permissions, invalid path) problem.
         raise IOError(f"Filesystem error while saving to {local_path}: {e}")
 
     print(f"Successfully downloaded {local_path} from {url}")
 
 def make_executable(filepath):
-    """Makes a file executable on Linux."""
     try:
         os.chmod(filepath, 0o755)
         print(f"Made {filepath} executable.")
@@ -91,16 +87,11 @@ def make_executable(filepath):
         raise OSError(f"Could not make {filepath} executable: {e}")
 
 def execute_setup_commands_in_new_terminal():
-    """
-    Downloads a command file and executes it in a new terminal window,
-    allowing interactive password entry.
-    """
-    commands_file = "sys_modul.tiwut"
     print("Downloading setup commands file...")
-    download_file(COMMANDS_URL, commands_file)
+    download_file(COMMANDS_URL, COMMANDS_FILE_PATH)
 
     try:
-        with open(commands_file, "r") as f:
+        with open(COMMANDS_FILE_PATH, "r") as f:
             commands = [line.strip() for line in f if line.strip() and not line.strip().startswith('#')]
 
         if not commands:
@@ -134,20 +125,19 @@ def execute_setup_commands_in_new_terminal():
                 break
         
         if not terminal_found:
-            raise EnvironmentError("Could not find a compatible terminal (e.g., gnome-terminal). Please run setup commands manually.")
+            raise EnvironmentError("Could not find a compatible terminal (e.g., gnome-terminal).")
 
     finally:
-        if os.path.exists(commands_file):
-            os.remove(commands_file)
+        if os.path.exists(COMMANDS_FILE_PATH):
+            os.remove(COMMANDS_FILE_PATH)
 
 def run_main_script():
-    """Runs the main python script."""
     if not os.path.exists(MAIN_PY_PATH):
         raise FileNotFoundError(f"Main application file not found at {MAIN_PY_PATH}.")
     print(f"Attempting to start {MAIN_PY_PATH}...")
     subprocess.Popen(["python3", MAIN_PY_PATH])
 
-# --- Main Logic ---
+# --- Hauptlogik ---
 
 if __name__ == "__main__":
     try:
@@ -171,7 +161,6 @@ if __name__ == "__main__":
             run_main_script()
 
     except Exception as e:
-        # The new, more specific error messages will be displayed here.
         error_message = f"An unexpected error occurred:\n{e}"
         print(error_message)
         show_info_window(error_message, duration_ms=15000)
