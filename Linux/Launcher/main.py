@@ -396,17 +396,20 @@ class AppStoreClient(tk.Tk):
         
         try:
             app_dir = os.path.join(AppConfig.INSTALL_BASE_PATH, app["name"])
-            target_path = os.path.join(app_dir, "main")
-            
+            main_script = os.path.join(app_dir, "main.py")
+            if not os.path.exists(main_script):
+                 NativeDialog(self, "Error", "main.py not found in app directory.", "error")
+                 return
+
             icon_path = self.icon_manager.get_icon_path(app)
             if not icon_path or not os.path.exists(icon_path):
-                icon_path = "" # No icon found
+                icon_path = ""
 
             desktop_entry = f"""[Desktop Entry]
 Version=1.0
 Name={app['name']}
 Comment=Launch {app['name']} from Tiwut Store
-Exec=sh -c 'cd "{app_dir}" && "./main"'
+Exec=sh -c 'cd "{app_dir}" && "./main.py"'
 Icon={icon_path}
 Terminal=false
 Type=Application
@@ -420,9 +423,7 @@ Categories=Game;Application;
             with open(shortcut_path, 'w', encoding='utf-8') as f:
                 f.write(desktop_entry)
             
-            # Make the .desktop file executable
             os.chmod(shortcut_path, 0o755)
-
             NativeDialog(self, "Success", f"Shortcut for {app['name']} created.\nIt should now appear in your application menu.")
         except Exception as e:
             NativeDialog(self, "Error", f"Could not create shortcut:\n{e}", "error")
@@ -432,12 +433,50 @@ Categories=Game;Application;
         dp.install_btn.state(['disabled'])
         threading.Thread(target=self._download_task, args=(app,), daemon=True).start()
 
+    def _run_dependency_installer(self, app_dir):
+        if sys.platform != 'linux': return
+
+        installer_script_path = os.path.join(app_dir, 'module_py.tiwut')
+        if not os.path.exists(installer_script_path):
+            print(f"No dependency script found at {installer_script_path}")
+            return
+
+        with open(installer_script_path, 'r') as f:
+            commands = [line.strip() for line in f if line.strip()]
+        
+        if not commands:
+            print("Dependency script is empty.")
+            return
+
+        full_command = " && ".join(commands)
+        final_script = f"{full_command} && echo -e '\\n\\nDependencies installed. Press ENTER to close this window.' && read"
+
+        terminals = [
+            ['gnome-terminal', '--', '/bin/bash', '-c', final_script],
+            ['konsole', '-e', '/bin/bash', '-c', final_script],
+            ['xterm', '-e', f"/bin/bash -c \"{final_script}\""]
+        ]
+        
+        launched = False
+        for term_cmd in terminals:
+            try:
+                subprocess.Popen(term_cmd)
+                launched = True
+                print(f"Launched dependency installer using {term_cmd[0]}")
+                break
+            except FileNotFoundError:
+                continue
+        
+        if not launched:
+            self.after(0, lambda: NativeDialog(self, "Warning", "Could not open a terminal to install dependencies.\nPlease install them manually.", "error"))
+
     def _download_task(self, app):
         dp = self.frames["DetailsPage"]
         try:
             self.after(0, lambda: self.progress_bar.update_full(0, "Connecting...", ""))
             app_dir = os.path.join(AppConfig.INSTALL_BASE_PATH, app["name"]); os.makedirs(app_dir, exist_ok=True)
             zip_path = os.path.join(app_dir, "app.zip")
+            
             with requests.get(app["download_url"], stream=True, timeout=15) as r:
                 r.raise_for_status(); total = int(r.headers.get('content-length', 0)); downloaded = 0
                 with open(zip_path, "wb") as f:
@@ -446,12 +485,16 @@ Categories=Game;Application;
                         if total > 0:
                             prog = (downloaded / total) * 100; info = f"{format_bytes(downloaded)} / {format_bytes(total)}"
                             self.after(0, lambda p=prog, i=info: self.progress_bar.update_full(p, f"Downloading {app['name']}...", i))
+            
             self.after(0, lambda: self.progress_bar.update_full(100, "Extracting files...", ""));
             with zipfile.ZipFile(zip_path, 'r') as zf: zf.extractall(app_dir)
+            
+            # NEU: Abhängigkeiten in einem neuen Terminal installieren
+            self._run_dependency_installer(app_dir)
+            
             os.remove(zip_path)
             
-            # Make the main executable runnable
-            main_executable = os.path.join(app_dir, "main")
+            main_executable = os.path.join(app_dir, "main.py")
             if os.path.exists(main_executable):
                 os.chmod(main_executable, 0o755)
 
@@ -468,10 +511,8 @@ Categories=Game;Application;
         dp = self.frames["DetailsPage"]
         if NativeDialog(self, "Confirm", f"Uninstall {app['name']}?", "askyesno").result:
             try: 
-                # Remove the application files
                 shutil.rmtree(os.path.join(AppConfig.INSTALL_BASE_PATH, app["name"]))
                 
-                # Remove the .desktop shortcut
                 shortcut_path = os.path.join(os.path.expanduser('~'), '.local', 'share', 'applications', f"tiwut-{app['name'].replace(' ', '')}.desktop")
                 if os.path.exists(shortcut_path):
                     os.remove(shortcut_path)
@@ -485,15 +526,15 @@ Categories=Game;Application;
                 NativeDialog(self, "Error", f"Failed to uninstall:\n{e}", "error")
 
     def open_app(self, app):
-        exe = os.path.join(AppConfig.INSTALL_BASE_PATH, app["name"], "main")
-        if os.path.exists(exe):
+        exe_path = os.path.join(AppConfig.INSTALL_BASE_PATH, app["name"], "main.py")
+        if os.path.exists(exe_path):
             try: 
-                # Use Popen to run in the background without blocking the GUI
-                subprocess.Popen([exe], cwd=os.path.dirname(exe))
+                app_dir = os.path.dirname(exe_path)
+                subprocess.Popen([exe_path], cwd=app_dir)
             except Exception as e: 
                 NativeDialog(self, "Error", f"Failed to launch app:\n{e}", "error")
         else: 
-            NativeDialog(self, "Error", "'main' executable not found!", "error")
+            NativeDialog(self, "Error", "'main.py' executable not found!", "error")
 
 if __name__ == "__main__":
     for path in [AppConfig.APP_DATA_DIR, AppConfig.INSTALL_BASE_PATH, AppConfig.ICON_CACHE_DIR]:
@@ -501,7 +542,6 @@ if __name__ == "__main__":
             try:
                 os.makedirs(path)
             except OSError as e:
-                # Use a fallback for showing error if tkinter isn't fully initialized
                 tk_root = tk.Tk()
                 tk_root.withdraw()
                 from tkinter import messagebox
