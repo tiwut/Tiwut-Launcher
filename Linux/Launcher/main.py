@@ -109,16 +109,14 @@ class IconManager:
         except requests.RequestException as e:
             print(f"Error downloading icon {url}: {e}")
         finally:
-            if url in self.active_downloads:
-                self.active_downloads.remove(url)
+            if url in self.active_downloads: self.active_downloads.remove(url)
     def _load_image_from_path(self, path, callback, size):
         try:
             with Image.open(path) as img:
                 img.thumbnail(size, Image.Resampling.LANCZOS)
                 photo_image = ImageTk.PhotoImage(img)
                 callback(photo_image)
-        except Exception:
-            self._use_placeholder(callback, size)
+        except Exception: self._use_placeholder(callback, size)
     def _use_placeholder(self, callback, size):
         if self.placeholder is None:
             ph_img = Image.new('RGB', size, AppConfig.STYLE["secondary"])
@@ -130,8 +128,7 @@ class Page(ttk.Frame):
         super().__init__(parent, style='App.TFrame')
         self.controller = controller
         self.grid(row=0, column=0, sticky="nsew")
-    def on_show(self, **kwargs):
-        pass
+    def on_show(self, **kwargs): pass
 
 class AppGridViewPage(Page):
     def __init__(self, parent, controller):
@@ -139,13 +136,10 @@ class AppGridViewPage(Page):
         self.header = ttk.Frame(self, padding=(25, 20, 25, 10), style='App.TFrame'); self.header.pack(fill="x")
         self.page_title = ttk.Label(self.header, text="Page Title", style='LargeTitle.TLabel'); self.page_title.pack(side="left", anchor="w")
         
-        search_frame = ttk.Frame(self.header, style='App.TFrame')
-        search_frame.pack(side="right", anchor="e")
-        
+        search_frame = ttk.Frame(self.header, style='App.TFrame'); search_frame.pack(side="right", anchor="e")
         self.search_var = tk.StringVar()
-        self.search_var.trace_add("write", lambda name, index, mode: self._filter_apps())
-        search_entry = ttk.Entry(search_frame, textvariable=self.search_var, width=30, style='Search.TEntry')
-        search_entry.pack(side="left", ipady=4)
+        self.search_var.trace_add("write", lambda n, i, m: self._filter_apps())
+        search_entry = ttk.Entry(search_frame, textvariable=self.search_var, width=30, style='Search.TEntry'); search_entry.pack(side="left", ipady=4)
         
         frame_container = tk.Frame(self, bg=AppConfig.STYLE["background"]); frame_container.pack(fill="both", expand=True)
         self.canvas = tk.Canvas(frame_container, bg=AppConfig.STYLE["background"], highlightthickness=0)
@@ -154,193 +148,126 @@ class AppGridViewPage(Page):
         self.canvas.create_window((0, 0), window=self.content_frame, anchor="nw")
         self.canvas.configure(yscrollcommand=self.scrollbar.set)
         self.canvas.pack(side="left", fill="both", expand=True); self.scrollbar.pack(side="right", fill="y")
-        
         self.content_frame.bind("<Configure>", lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all")))
         self.bind("<Configure>", self._repopulate_grid)
-        
-        self.all_apps_on_page = []
-        self.apps_to_display = []
-        self.animation_job = None
-
+        self.all_apps_on_page = []; self.apps_to_display = []; self.animation_job = None
         self.canvas.bind_all("<MouseWheel>", self._on_mouse_wheel)
 
     def _on_mouse_wheel(self, event):
         if sys.platform == 'linux':
-            if event.num == 4:
-                self.canvas.yview_scroll(-1, "units")
-            elif event.num == 5:
-                self.canvas.yview_scroll(1, "units")
-        else:
-            self.canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
+            scroll_val = -1 if event.num == 4 else 1 if event.num == 5 else 0
+            self.canvas.yview_scroll(scroll_val, "units")
+        else: self.canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
             
     def _set_app_list(self, apps):
         self.all_apps_on_page = sorted(apps, key=lambda x: x['name'])
-        self.search_var.set("")
-        self._filter_apps()
+        self.search_var.set(""); self._filter_apps()
 
     def _filter_apps(self):
         search_term = self.search_var.get().lower()
-        if not search_term:
-            self.apps_to_display = self.all_apps_on_page
-        else:
-            self.apps_to_display = [app for app in self.all_apps_on_page if search_term in app['name'].lower()]
+        self.apps_to_display = [app for app in self.all_apps_on_page if not search_term or search_term in app['name'].lower()]
         self._repopulate_grid()
 
     def _repopulate_grid(self, event=None):
-        if self.animation_job:
-            self.after_cancel(self.animation_job)
-            self.animation_job = None
-            
+        if self.animation_job: self.after_cancel(self.animation_job)
         for widget in self.content_frame.winfo_children(): widget.destroy()
-        
         if not self.apps_to_display:
             ttk.Label(self.content_frame, text="No applications found.", style='LightText.TLabel').pack(pady=50)
             return
-        
-        container_width = self.winfo_width() - 70 
-        card_width = 220
+        container_width = self.winfo_width() - 70; card_width = 220
         cols = max(1, container_width // card_width)
-        
         self._animate_card_entry(0, cols)
 
     def _animate_card_entry(self, index, cols):
-        if index >= len(self.apps_to_display):
-            self.animation_job = None
-            return
-
-        app = self.apps_to_display[index]
-        row, col = divmod(index, cols)
-        
+        if index >= len(self.apps_to_display): self.animation_job = None; return
+        app = self.apps_to_display[index]; row, col = divmod(index, cols)
         card = self.AppCard(self.content_frame, app, self.controller)
         card.grid(row=row, column=col, padx=10, pady=10, sticky="n")
-        
         self.animation_job = self.after(40, self._animate_card_entry, index + 1, cols)
 
     class AppCard(ttk.Frame):
         def __init__(self, parent, app, controller):
             super().__init__(parent, style='Card.TFrame', padding=10)
             self.app = app; self.controller = controller
-            
-            self.bind("<Button-1>", self._show_details)
-            self.bind("<Enter>", self._on_enter)
-            self.bind("<Leave>", self._on_leave)
-
-            self.icon_label = ttk.Label(self, style='App.TFrame')
-            self.icon_label.pack(pady=5)
+            self.bind("<Button-1>", self._show_details); self.bind("<Enter>", self._on_enter); self.bind("<Leave>", self._on_leave)
+            self.icon_label = ttk.Label(self, style='App.TFrame'); self.icon_label.pack(pady=5)
             self.controller.icon_manager.get_icon(app, self.set_icon)
             self.icon_label.bind("<Button-1>", self._show_details)
-
-            app_name = ttk.Label(self, text=app["name"], style='CardTitle.TLabel', anchor="center")
-            app_name.pack(fill="x", pady=(10, 5))
+            app_name = ttk.Label(self, text=app["name"], style='CardTitle.TLabel', anchor="center"); app_name.pack(fill="x", pady=(10, 5))
             app_name.bind("<Button-1>", self._show_details)
-
-            self.view_btn = ttk.Button(self, text="View Details", command=self._show_details, style='Accent.TButton')
-            self.view_btn.pack(pady=(0, 5))
+            self.view_btn = ttk.Button(self, text="View Details", command=self._show_details, style='Accent.TButton'); self.view_btn.pack(pady=(0, 5))
         
         def set_icon(self, photo_image):
-            if self.winfo_exists():
-                self.icon_image = photo_image
-                self.icon_label.configure(image=self.icon_image)
-
-        def _on_enter(self, e):
-            self.configure(style='CardHover.TFrame')
-
-        def _on_leave(self, e):
-            self.configure(style='Card.TFrame')
-        
+            if self.winfo_exists(): self.icon_image = photo_image; self.icon_label.configure(image=self.icon_image)
+        def _on_enter(self, e): self.configure(style='CardHover.TFrame')
+        def _on_leave(self, e): self.configure(style='Card.TFrame')
         def _show_details(self, e=None):
             source = self.controller.get_page_name(self.controller.current_frame)
             self.controller.show_frame("DetailsPage", app_data=self.app, source_page=source)
 
 class DiscoverPage(AppGridViewPage):
-    def on_show(self, **kwargs):
-        self.page_title.config(text="Discover New Apps")
-        self._set_app_list(self.controller.get_all_apps())
-
+    def on_show(self, **kwargs): self.page_title.config(text="Discover New Apps"); self._set_app_list(self.controller.get_all_apps())
 class LibraryPage(AppGridViewPage):
-    def on_show(self, **kwargs):
-        self.page_title.config(text="My Installed Apps")
-        self._set_app_list(self.controller.get_installed_apps())
+    def on_show(self, **kwargs): self.page_title.config(text="My Installed Apps"); self._set_app_list(self.controller.get_installed_apps())
 
 class DetailsPage(Page):
     def __init__(self, parent, controller):
         super().__init__(parent, controller)
-        self.app = None
-        self.source_page = "DiscoverPage" 
-
-    def on_show(self, app_data, source_page):
-        self.app = app_data
-        self.source_page = source_page
-        self._populate_view()
-
+        self.app = None; self.source_page = "DiscoverPage" 
+    def on_show(self, app_data, source_page): self.app = app_data; self.source_page = source_page; self._populate_view()
     def _populate_view(self):
         for widget in self.winfo_children(): widget.destroy()
-        header_frame = ttk.Frame(self, padding=(25, 20, 25, 10), style='App.TFrame')
-        header_frame.pack(fill="x", anchor="n")
-        back_button = ttk.Button(header_frame, text="< Back", command=lambda: self.controller.show_frame(self.source_page))
-        back_button.pack(side="left", anchor="n")
-        title_frame = ttk.Frame(self, padding=(25, 10), style='App.TFrame')
-        title_frame.pack(fill="x", anchor="n")
+        header_frame = ttk.Frame(self, padding=(25, 20, 25, 10), style='App.TFrame'); header_frame.pack(fill="x", anchor="n")
+        ttk.Button(header_frame, text="< Back", command=lambda: self.controller.show_frame(self.source_page)).pack(side="left", anchor="n")
+        title_frame = ttk.Frame(self, padding=(25, 10), style='App.TFrame'); title_frame.pack(fill="x", anchor="n")
         ttk.Label(title_frame, text=self.app["name"], style='LargeTitle.TLabel').pack(side="left")
         self.action_frame = ttk.Frame(title_frame, style='App.TFrame'); self.action_frame.pack(side="right")
         self.install_btn = ttk.Button(self.action_frame, text="Install", style='Accent.TButton', command=lambda: self.controller.install_app(self.app))
         self.uninstall_btn = ttk.Button(self.action_frame, text="Uninstall", command=lambda: self.controller.uninstall_app(self.app))
         self.launch_btn = ttk.Button(self.action_frame, text="Launch", style='Accent.TButton', command=lambda: self.controller.open_app(self.app))
         self.shortcut_btn = ttk.Button(self.action_frame, text="Create Shortcut", command=lambda: self.controller.create_shortcut(self.app))
-        
-        content_frame = ttk.Frame(self, padding=25, style='App.TFrame')
-        content_frame.pack(fill="both", expand=True)
+        content_frame = ttk.Frame(self, padding=25, style='App.TFrame'); content_frame.pack(fill="both", expand=True)
         ttk.Label(content_frame, text="About this App", style='Title.TLabel').pack(anchor="w", pady=(10,0))
         ttk.Label(content_frame, text="For detailed information, please visit the official website.", style='LightText.TLabel').pack(anchor="w", pady=(2, 10))
         ttk.Button(content_frame, text="Open Website", command=lambda: self.controller.open_info_website(self.app)).pack(anchor="w", pady=10)
-        self.progress_container = ttk.Frame(self, style='App.TFrame', padding=25)
-        self.progress_container.pack(fill="x", side="bottom")
+        self.progress_container = ttk.Frame(self, style='App.TFrame', padding=25); self.progress_container.pack(fill="x", side="bottom")
         self._update_action_buttons()
 
     def _update_action_buttons(self):
         is_installed = self.controller.is_app_installed(self.app)
-        self.install_btn.pack_forget()
-        self.uninstall_btn.pack_forget()
-        self.launch_btn.pack_forget()
-        self.shortcut_btn.pack_forget()
-
+        for btn in [self.install_btn, self.uninstall_btn, self.launch_btn, self.shortcut_btn]: btn.pack_forget()
         if is_installed:
-            self.uninstall_btn.pack(side="left", padx=5)
-            self.launch_btn.pack(side="left", padx=5)
-            if sys.platform == 'linux':
-                self.shortcut_btn.pack(side="left", padx=5)
-        else:
-            self.install_btn.pack(side="left", padx=5)
+            self.uninstall_btn.pack(side="left", padx=5); self.launch_btn.pack(side="left", padx=5)
+            if sys.platform == 'linux': self.shortcut_btn.pack(side="left", padx=5)
+        else: self.install_btn.pack(side="left", padx=5)
 
 class AppStoreClient(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("Tiwut App Store")
-        self.geometry("1100x750"); self.minsize(800, 600)
+        self.title("Tiwut App Store"); self.geometry("1100x750"); self.minsize(800, 600)
         self.configure(bg=AppConfig.STYLE["background"])
-        self.setup_styles()
-        self.icon_manager = IconManager(self)
-        self.all_apps = self.load_library()
+        self.setup_styles(); self.icon_manager = IconManager(self); self.all_apps = self.load_library()
         main_container = ttk.Frame(self, style='App.TFrame'); main_container.pack(fill="both", expand=True)
         nav_rail = ttk.Frame(main_container, width=200, style='Primary.TFrame'); nav_rail.pack(side="left", fill="y"); nav_rail.pack_propagate(False)
         self.content_area = ttk.Frame(main_container, style='App.TFrame'); self.content_area.pack(side="right", fill="both", expand=True)
         self.content_area.grid_rowconfigure(0, weight=1); self.content_area.grid_columnconfigure(0, weight=1)
         self.frames = {}; self.nav_buttons = {}
-        self._create_navigation(nav_rail); self._create_pages()
-        self.show_frame("DiscoverPage")
+        self._create_navigation(nav_rail); self._create_pages(); self.show_frame("DiscoverPage")
 
     def setup_styles(self):
         s = ttk.Style(); s.theme_use(AppConfig.STYLE["theme"]); S = AppConfig.STYLE
+        s.configure('.', background=S["background"], foreground=S["text"])
+        s.configure('TFrame', background=S["background"])
         s.configure('App.TFrame', background=S["background"])
         s.configure('Primary.TFrame', background=S["primary"])
         s.configure('Card.TFrame', background=S["primary"], borderwidth=1, relief='solid', bordercolor=S["primary"])
         s.configure('CardHover.TFrame', background=S["secondary"], borderwidth=1, relief='solid', bordercolor=S["accent"])
-        s.configure('TLabel', background=S["background"], foreground=S["text"], font=S["font_body"])
-        s.configure('LightText.TLabel', background=S["background"], foreground=S["text"], font=S["font_body"])
-        s.configure('SecondaryText.TLabel', background=S["background"], foreground=S["text_secondary"], font=S["font_body"])
-        s.configure('LargeTitle.TLabel', background=S["background"], foreground=S["text"], font=S["font_large_title"])
-        s.configure('Title.TLabel', background=S["background"], foreground=S["text"], font=S["font_title"])
-        s.configure('CardTitle.TLabel', background=S["primary"], foreground=S["text"], font=S["font_body_bold"])
+        s.configure('TLabel', font=S["font_body"])
+        s.configure('LightText.TLabel', foreground=S["text"])
+        s.configure('SecondaryText.TLabel', foreground=S["text_secondary"])
+        s.configure('LargeTitle.TLabel', font=S["font_large_title"])
+        s.configure('Title.TLabel', font=S["font_title"])
+        s.configure('CardTitle.TLabel', background=S["primary"], font=S["font_body_bold"])
         s.configure('TButton', font=S["font_body_bold"], padding=10, relief='flat'); s.map('TButton', background=[('active', S["secondary"])])
         s.configure('Accent.TButton', foreground=S["text"], background=S["accent"]); s.map('Accent.TButton', background=[('active', S["accent_hover"]), ('disabled', S["disabled_bg"])], foreground=[('disabled', S["disabled_fg"])])
         s.configure('Nav.TButton', font=S["font_nav"], padding=(20, 10), background=S["primary"], foreground=S["text_secondary"], borderwidth=0)
@@ -369,184 +296,103 @@ class AppStoreClient(tk.Tk):
             apps = []
             for line in r.text.splitlines():
                 if not line.strip(): continue
-                parts = line.strip().split(";")
+                parts = [p.strip() for p in line.strip().split(";")]
                 if len(parts) >= 3:
-                    app = {"name": parts[0], "download_url": parts[1], "website_url": parts[2]}
-                    if len(parts) >= 4: app["icon_url"] = parts[3]
+                    app = {"name": parts[0], "download_url": parts[1], "website_url": parts[2], "icon_url": parts[3] if len(parts) >= 4 else None}
                     apps.append(app)
             return apps
         except requests.RequestException as e:
-            NativeDialog(self, "Network Error", f"Could not load app library:\n{e}"); self.after(100, self.destroy)
-            return []
+            NativeDialog(self, "Network Error", f"Could not load app library:\n{e}"); self.after(100, self.destroy); return []
 
     def get_all_apps(self): return self.all_apps
     def get_installed_apps(self): return [app for app in self.all_apps if self.is_app_installed(app)]
     def is_app_installed(self, app): return os.path.exists(os.path.join(AppConfig.INSTALL_BASE_PATH, app["name"]))
 
     def open_info_website(self, app):
-        try: 
-            webbrowser.open(app['website_url'])
-        except Exception as e: 
-            NativeDialog(self, "Error", f"Could not open website:\n{e}", "error")
+        if app.get("website_url"): webbrowser.open(app['website_url'])
+        else: NativeDialog(self, "Info", "No website provided for this application.")
 
     def create_shortcut(self, app):
-        if sys.platform != 'linux':
-            NativeDialog(self, "Unsupported", "This shortcut feature is for Linux.", "error")
-            return
-        
+        if sys.platform != 'linux': NativeDialog(self, "Unsupported", "This shortcut feature is for Linux.", "error"); return
         try:
-            app_dir = os.path.join(AppConfig.INSTALL_BASE_PATH, app["name"])
-            main_script = os.path.join(app_dir, "main.py")
-            if not os.path.exists(main_script):
-                 NativeDialog(self, "Error", "main.py not found in app directory.", "error")
-                 return
-
-            icon_path = self.icon_manager.get_icon_path(app)
-            if not icon_path or not os.path.exists(icon_path):
-                icon_path = ""
-
-            desktop_entry = f"""[Desktop Entry]
-Version=1.0
-Name={app['name']}
-Comment=Launch {app['name']} from Tiwut Store
-Exec=sh -c 'cd "{app_dir}" && "./main.py"'
-Icon={icon_path}
-Terminal=false
-Type=Application
-Categories=Game;Application;
-"""
-            
+            app_dir = os.path.join(AppConfig.INSTALL_BASE_PATH, app["name"]); main_script = os.path.join(app_dir, "main.py")
+            if not os.path.exists(main_script): NativeDialog(self, "Error", "main.py not found in app directory.", "error"); return
+            icon_path = self.icon_manager.get_icon_path(app) or ""
+            desktop_entry = f"""[Desktop Entry]\nVersion=1.0\nName={app['name']}\nComment=Launch {app['name']}\nExec=sh -c 'cd "{app_dir}" && "./main.py"'\nIcon={icon_path}\nTerminal=false\nType=Application\nCategories=Game;Application;"""
             shortcut_dir = os.path.join(os.path.expanduser('~'), '.local', 'share', 'applications')
             os.makedirs(shortcut_dir, exist_ok=True)
             shortcut_path = os.path.join(shortcut_dir, f"tiwut-{app['name'].replace(' ', '')}.desktop")
-
-            with open(shortcut_path, 'w', encoding='utf-8') as f:
-                f.write(desktop_entry)
-            
+            with open(shortcut_path, 'w', encoding='utf-8') as f: f.write(desktop_entry)
             os.chmod(shortcut_path, 0o755)
             NativeDialog(self, "Success", f"Shortcut for {app['name']} created.\nIt should now appear in your application menu.")
-        except Exception as e:
-            NativeDialog(self, "Error", f"Could not create shortcut:\n{e}", "error")
+        except Exception as e: NativeDialog(self, "Error", f"Could not create shortcut:\n{e}", "error")
 
     def install_app(self, app):
         dp = self.frames["DetailsPage"]; self.progress_bar = StatusProgressBar(dp.progress_container); self.progress_bar.pack(fill='x')
-        dp.install_btn.state(['disabled'])
-        threading.Thread(target=self._download_task, args=(app,), daemon=True).start()
+        dp.install_btn.state(['disabled']); threading.Thread(target=self._download_task, args=(app,), daemon=True).start()
 
     def _run_dependency_installer(self, app_dir):
         if sys.platform != 'linux': return
-
-        installer_script_path = os.path.join(app_dir, 'module_py.tiwut')
-        if not os.path.exists(installer_script_path):
-            print(f"No dependency script found at {installer_script_path}")
-            return
-
-        with open(installer_script_path, 'r') as f:
-            commands = [line.strip() for line in f if line.strip()]
-        
-        if not commands:
-            print("Dependency script is empty.")
-            return
-
+        script_path = os.path.join(app_dir, 'module_py.tiwut')
+        if not os.path.exists(script_path): return
+        with open(script_path, 'r') as f: commands = [line.strip() for line in f if line.strip()]
+        if not commands: return
         full_command = " && ".join(commands)
-        final_script = f"{full_command} && echo -e '\\n\\nDependencies installed. Press ENTER to close this window.' && read"
-
-        terminals = [
-            ['gnome-terminal', '--', '/bin/bash', '-c', final_script],
-            ['konsole', '-e', '/bin/bash', '-c', final_script],
-            ['xterm', '-e', f"/bin/bash -c \"{final_script}\""]
-        ]
+        final_script = f"echo 'Installing dependencies for the app...'; {full_command}; echo -e '\\n\\nProcess finished. Press ENTER to close.'; read"
         
-        launched = False
-        for term_cmd in terminals:
+        for term in [['gnome-terminal', '--'], ['konsole', '-e'], ['xfce4-terminal', '-e'], ['xterm', '-e']]:
             try:
-                subprocess.Popen(term_cmd)
-                launched = True
-                print(f"Launched dependency installer using {term_cmd[0]}")
-                break
-            except FileNotFoundError:
-                continue
-        
-        if not launched:
-            self.after(0, lambda: NativeDialog(self, "Warning", "Could not open a terminal to install dependencies.\nPlease install them manually.", "error"))
+                cmd = term + ['/bin/bash', '-c', final_script] if term[0] != 'xterm' else [term[0], '-e', f"/bin/bash -c \"{final_script}\""]
+                subprocess.Popen(cmd); return
+            except FileNotFoundError: continue
+        self.after(0, lambda: NativeDialog(self, "Warning", "Could not open a terminal to install dependencies.", "error"))
 
     def _download_task(self, app):
-        dp = self.frames["DetailsPage"]
+        dp = self.frames["DetailsPage"]; app_dir = os.path.join(AppConfig.INSTALL_BASE_PATH, app["name"])
         try:
-            self.after(0, lambda: self.progress_bar.update_full(0, "Connecting...", ""))
-            app_dir = os.path.join(AppConfig.INSTALL_BASE_PATH, app["name"]); os.makedirs(app_dir, exist_ok=True)
+            self.after(0, lambda: self.progress_bar.update_full(0, "Connecting...", "")); os.makedirs(app_dir, exist_ok=True)
             zip_path = os.path.join(app_dir, "app.zip")
-            
             with requests.get(app["download_url"], stream=True, timeout=15) as r:
                 r.raise_for_status(); total = int(r.headers.get('content-length', 0)); downloaded = 0
                 with open(zip_path, "wb") as f:
                     for chunk in r.iter_content(chunk_size=8192):
                         f.write(chunk); downloaded += len(chunk)
                         if total > 0:
-                            prog = (downloaded / total) * 100; info = f"{format_bytes(downloaded)} / {format_bytes(total)}"
-                            self.after(0, lambda p=prog, i=info: self.progress_bar.update_full(p, f"Downloading {app['name']}...", i))
-            
+                            p, i = (downloaded / total) * 100, f"{format_bytes(downloaded)} / {format_bytes(total)}"
+                            self.after(0, lambda pr=p, inf=i: self.progress_bar.update_full(pr, f"Downloading {app['name']}...", inf))
             self.after(0, lambda: self.progress_bar.update_full(100, "Extracting files...", ""));
             with zipfile.ZipFile(zip_path, 'r') as zf: zf.extractall(app_dir)
-            
-            # NEU: Abhängigkeiten in einem neuen Terminal installieren
-            self._run_dependency_installer(app_dir)
-            
             os.remove(zip_path)
-            
-            main_executable = os.path.join(app_dir, "main.py")
-            if os.path.exists(main_executable):
-                os.chmod(main_executable, 0o755)
-
-            self.after(0, lambda: [
-                dp.on_show(app_data=app, source_page=dp.source_page),
-                self.frames["LibraryPage"].on_show()
-            ])
+            main_exe = os.path.join(app_dir, "main.py")
+            if os.path.exists(main_exe): os.chmod(main_exe, 0o755)
+            self._run_dependency_installer(app_dir)
+            self.after(0, lambda: [dp.on_show(app_data=app, source_page=dp.source_page), self.frames["LibraryPage"].on_show()])
             NativeDialog(self, "Success", f"{app['name']} was installed successfully.")
         except Exception as e:
             NativeDialog(self, "Error", f"Installation failed:\n{e}", "error")
-            self.after(0, dp.install_btn.state(['!disabled']))
+            self.after(0, lambda: dp.install_btn.state(['!disabled']))
+            if os.path.exists(app_dir): shutil.rmtree(app_dir)
 
     def uninstall_app(self, app):
-        dp = self.frames["DetailsPage"]
         if NativeDialog(self, "Confirm", f"Uninstall {app['name']}?", "askyesno").result:
             try: 
                 shutil.rmtree(os.path.join(AppConfig.INSTALL_BASE_PATH, app["name"]))
-                
-                shortcut_path = os.path.join(os.path.expanduser('~'), '.local', 'share', 'applications', f"tiwut-{app['name'].replace(' ', '')}.desktop")
-                if os.path.exists(shortcut_path):
-                    os.remove(shortcut_path)
-
+                shortcut = os.path.join(os.path.expanduser('~'), '.local', 'share', 'applications', f"tiwut-{app['name'].replace(' ', '')}.desktop")
+                if os.path.exists(shortcut): os.remove(shortcut)
                 NativeDialog(self, "Success", f"{app['name']} was uninstalled.")
-                self.after(0, lambda: [
-                    dp.on_show(app_data=app, source_page=dp.source_page),
-                    self.frames["LibraryPage"].on_show()
-                ])
-            except Exception as e: 
-                NativeDialog(self, "Error", f"Failed to uninstall:\n{e}", "error")
+                dp = self.frames["DetailsPage"]
+                self.after(0, lambda: [dp.on_show(app_data=app, source_page=dp.source_page), self.frames["LibraryPage"].on_show()])
+            except Exception as e: NativeDialog(self, "Error", f"Failed to uninstall:\n{e}", "error")
 
     def open_app(self, app):
         exe_path = os.path.join(AppConfig.INSTALL_BASE_PATH, app["name"], "main.py")
         if os.path.exists(exe_path):
-            try: 
-                app_dir = os.path.dirname(exe_path)
-                subprocess.Popen([exe_path], cwd=app_dir)
-            except Exception as e: 
-                NativeDialog(self, "Error", f"Failed to launch app:\n{e}", "error")
-        else: 
-            NativeDialog(self, "Error", "'main.py' executable not found!", "error")
+            try: subprocess.Popen([exe_path], cwd=os.path.dirname(exe_path))
+            except Exception as e: NativeDialog(self, "Error", f"Failed to launch app:\n{e}", "error")
+        else: NativeDialog(self, "Error", "'main.py' executable not found!", "error")
 
 if __name__ == "__main__":
     for path in [AppConfig.APP_DATA_DIR, AppConfig.INSTALL_BASE_PATH, AppConfig.ICON_CACHE_DIR]:
-        if not os.path.exists(path):
-            try:
-                os.makedirs(path)
-            except OSError as e:
-                tk_root = tk.Tk()
-                tk_root.withdraw()
-                from tkinter import messagebox
-                messagebox.showerror("Startup Error", f"Could not create required directory:\n{path}\n\nError: {e}")
-                sys.exit(1)
-                
+        os.makedirs(path, exist_ok=True)
     app = AppStoreClient()
     app.mainloop()
