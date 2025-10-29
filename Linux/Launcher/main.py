@@ -1,18 +1,3 @@
-#!/usr/bin/env python3
-# Tiwut App Store Client v2.9 - Linux Edition
-#
-# Changes in this version:
-# 1. Ported to Linux: Adapted for Debian/Ubuntu-based systems.
-#    - Uses Linux-standard directories (~/.config, ~/.local/share).
-#    - Creates .desktop files for application shortcuts instead of Windows .lnk files.
-#    - Uses Linux-standard executable names ("main" instead of "main.exe").
-#    - Changed default font to a common Linux font.
-# 2. Critical Bug Fix: Corrected a logical error where the "Back" button on the
-#    DetailsPage would break after an install or uninstall, causing a TypeError.
-#    The page now correctly remembers its original source page.
-# 3. Code Modernization: Updated from the deprecated trace() method to trace_add()
-#    to resolve the DeprecationWarning.
-
 import tkinter as tk
 from tkinter import ttk
 from tkinter import font
@@ -33,7 +18,7 @@ class AppConfig:
     ICON_CACHE_DIR = os.path.join(APP_DATA_DIR, 'icon_cache')
     INSTALL_SUBDIR = "TiwutApps"
     INSTALL_BASE_PATH = os.path.join(os.path.expanduser('~'), 'Documents', INSTALL_SUBDIR)
-    LIBRARY_URL = "https://launcher.tiwut.de/library.tiwut"
+    LIBRARY_URL = "https://launcher.tiwut.de/Linux/library.tiwut"
     STYLE = {
         "theme": "clam",
         "background": "#2E2E2E",
