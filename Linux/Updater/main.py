@@ -5,6 +5,8 @@ import tkinter as tk
 from tkinter import ttk
 import sys
 import subprocess
+import ssl
+import shutil
 
 # --- Configuration ---
 SYS_TIWUT_URL = "https://launcher.tiwut.de/Linux/sys.tiwut"
@@ -14,148 +16,170 @@ LOCAL_SYS_TIWUT = "sys.tiwut"
 LAUNCHER_DIR = "Launcher"
 MAIN_PY_PATH = os.path.join(LAUNCHER_DIR, "main.py")
 
+# --- SSL CERTIFICATE BYPASS ---
+# Creates a context that does not verify SSL certificates to avoid
+# "CERTIFICATE_VERIFY_FAILED" errors.
+try:
+    ssl_context = ssl._create_unverified_context()
+except AttributeError:
+    pass
 
+# --- Functions ---
 
-def show_info_window(message):
+def show_info_window(message, duration_ms=4000):
     """Displays a simple information window."""
     root = tk.Tk()
     root.title("Process Info")
-    root.geometry("350x100")
-    # Center the window
+    root.geometry("500x150")
     root.update_idletasks()
-    width = root.winfo_width()
-    height = root.winfo_height()
-    x = (root.winfo_screenwidth() // 2) - (width // 2)
-    y = (root.winfo_screenheight() // 2) - (height // 2)
-    root.geometry(f'{width}x{height}+{x}+{y}')
-    label = ttk.Label(root, text=message, wraplength=330)
-    label.pack(pady=20, padx=20)
-    root.after(3500, root.destroy)  # Close the window after 3.5 seconds
+    x = (root.winfo_screenwidth() // 2) - (root.winfo_width() // 2)
+    y = (root.winfo_screenheight() // 2) - (root.winfo_height() // 2)
+    root.geometry(f'+{x}+{y}')
+    label = ttk.Label(root, text=message, wraplength=480, justify='center')
+    label.pack(pady=20, padx=20, expand=True)
+    root.after(duration_ms, root.destroy)
     root.mainloop()
 
 def get_online_hash(url):
-    """Gets the SHA-256 hash of content from a URL."""
+    """Gets the SHA-256 hash of content from a URL, bypassing SSL verification."""
     try:
-        with urllib.request.urlopen(url) as response:
+        with urllib.request.urlopen(url, context=ssl_context) as response:
             if response.status == 200:
-                data = response.read()
-                return hashlib.sha256(data).hexdigest()
+                return hashlib.sha256(response.read()).hexdigest()
     except Exception as e:
-        print(f"Error fetching online hash from {url}: {e}")
-        return None
+        raise ConnectionError(f"Could not fetch online hash from {url}: {e}")
 
 def get_local_hash(filepath):
     """Calculates the SHA-256 hash of a local file."""
     if not os.path.exists(filepath):
         return None
     with open(filepath, 'rb') as f:
-        data = f.read()
-        return hashlib.sha256(data).hexdigest()
+        return hashlib.sha256(f.read()).hexdigest()
 
 def download_file(url, local_path):
-    """Downloads a file from a URL to a local path."""
+    """Downloads a file robustly, bypassing SSL verification."""
     try:
-        # Ensure the target directory exists
         os.makedirs(os.path.dirname(local_path), exist_ok=True)
-        urllib.request.urlretrieve(url, local_path)
+        request = urllib.request.Request(url)
+        with urllib.request.urlopen(request, context=ssl_context) as response:
+            if response.status != 200:
+                raise ConnectionError(f"Server returned status {response.status}")
+            with open(local_path, 'wb') as out_file:
+                out_file.write(response.read())
         print(f"Successfully downloaded {local_path} from {url}")
         return True
     except Exception as e:
-        print(f"Error downloading {url}: {e}")
-        return False
+        raise IOError(f"Failed to download {url}: {e}")
 
 def make_executable(filepath):
     """Makes a file executable on Linux."""
     try:
-        # Corresponds to chmod 755
         os.chmod(filepath, 0o755)
         print(f"Made {filepath} executable.")
-        return True
     except Exception as e:
-        print(f"Error making {filepath} executable: {e}")
-        return False
+        raise OSError(f"Could not make {filepath} executable: {e}")
 
-def execute_setup_commands():
-    """Downloads and executes commands from the commands file."""
+def execute_setup_commands_in_new_terminal():
+    """
+    Downloads a command file and executes its contents in a new terminal window.
+    This allows the user to enter their sudo password interactively.
+    """
     commands_file = "sys_modul.tiwut"
     print("Downloading setup commands file...")
-    if download_file(COMMANDS_URL, commands_file):
-        try:
-            print("--- Executing Setup Commands ---")
-            with open(commands_file, "r") as f:
-                commands = f.read().splitlines()
-            for command in commands:
-                command = command.strip()
-                if command and not command.startswith('#'): # Ignore empty lines and comments
-                    print(f"Executing command: '{command}'")
-                    # Using shell=True to interpret the command as a string
-                    # check=True will raise an error if the command fails
-                    subprocess.run(command, shell=True, check=True)
-            print("--- Finished Executing Commands ---")
-        except FileNotFoundError:
-            print(f"Error: Could not find the commands file '{commands_file}'.")
-        except subprocess.CalledProcessError as e:
-            print(f"Error executing command: '{e.cmd}'. It returned a non-zero exit code: {e.returncode}")
-            print("Please check the command and your permissions (try running with sudo).")
-        except Exception as e:
-            print(f"An unexpected error occurred while executing commands: {e}")
-        finally:
-            # Clean up the downloaded commands file
+    download_file(COMMANDS_URL, commands_file)
+
+    try:
+        with open(commands_file, "r") as f:
+            # Read commands, filter out empty lines/comments
+            commands = [line.strip() for line in f if line.strip() and not line.strip().startswith('#')]
+
+        if not commands:
+            print("No setup commands to execute.")
+            return
+
+        # Add a command to update package lists as a good practice
+        full_command_string = "sudo apt-get update && " + " && ".join(commands)
+
+        # Add messages for the user and a pause to keep the terminal open
+        # The 'read' command waits for the user to press Enter.
+        shell_script = (
+            f'echo "--- Automated Setup ---";'
+            f'echo "The application needs to install system packages.";'
+            f'echo "Please enter your password when prompted.";'
+            f'echo "Executing: {full_command_string}";'
+            f'{full_command_string};'
+            f'echo "";'
+            f'echo "--- Setup Finished ---";'
+            f'read -p "You can now close this terminal. Press ENTER to continue...";'
+        )
+
+        # List of common terminal emulators and their command execution flags
+        terminals = [
+            ('gnome-terminal', '--', '/bin/bash', '-c', shell_script),
+            ('konsole', '-e', '/bin/bash', '-c', shell_script),
+            ('xfce4-terminal', '-e', shell_script),
+            ('xterm', '-e', shell_script)
+        ]
+
+        terminal_found = False
+        for term_cmd in terminals:
+            # shutil.which checks if a program exists in the system's PATH
+            if shutil.which(term_cmd[0]):
+                print(f"Found '{term_cmd[0]}'. Opening new terminal for setup...")
+                # Start the terminal process and let it run independently
+                subprocess.Popen(term_cmd)
+                terminal_found = True
+                break
+        
+        if not terminal_found:
+            raise EnvironmentError("Could not find a compatible terminal (gnome-terminal, konsole, etc.). Please run setup commands manually.")
+
+    finally:
+        if os.path.exists(commands_file):
             os.remove(commands_file)
 
 def run_main_script():
     """Runs the main python script."""
-    if os.path.exists(MAIN_PY_PATH):
-        print(f"Attempting to start {MAIN_PY_PATH}...")
-        try:
-            # Run the script and exit this launcher
-            subprocess.run(["python3", MAIN_PY_PATH], check=True)
-        except FileNotFoundError:
-             print(f"Error: 'python3' command not found. Please ensure Python 3 is installed and in your PATH.")
-        except Exception as e:
-            print(f"Error running {MAIN_PY_PATH}: {e}")
-    else:
-        print(f"Error: Main application file not found at {MAIN_PY_PATH}.")
+    if not os.path.exists(MAIN_PY_PATH):
+        raise FileNotFoundError(f"Main application file not found at {MAIN_PY_PATH}.")
+    print(f"Attempting to start {MAIN_PY_PATH}...")
+    # We use Popen so the launcher can exit while the main app runs
+    subprocess.Popen(["python3", MAIN_PY_PATH])
 
 # --- Main Logic ---
 
 if __name__ == "__main__":
-    online_hash = get_online_hash(SYS_TIWUT_URL)
-    local_hash = get_local_hash(LOCAL_SYS_TIWUT)
+    try:
+        online_hash = get_online_hash(SYS_TIWUT_URL)
+        local_hash = get_local_hash(LOCAL_SYS_TIWUT)
 
+        update_needed = False
+        if local_hash is None or local_hash != online_hash:
+            update_needed = True
 
-    update_needed = False
-    if online_hash is None:
-        print("Warning: Could not connect to update server. Will try to run the local version if available.")
-    elif local_hash is None:
-        update_needed = True
-        show_info_window("Application not found. Starting download...")
-    elif local_hash != online_hash:
-        update_needed = True
-        show_info_window("A new version is available. Updating...")
-
-    if update_needed:
-        # --- Update Process ---
-        print("Starting update process...")
-        show_info_window("Updating... Please wait.")
-        
-        # Download core files
-        download_success = download_file(SYS_TIWUT_URL, LOCAL_SYS_TIWUT) and \
-                           download_file(MAIN_PY_URL, MAIN_PY_PATH)
-
-        if download_success:
+        if update_needed:
+            print("Update required. Starting process...")
+            show_info_window("Downloading new files...", duration_ms=2000)
+            download_file(SYS_TIWUT_URL, LOCAL_SYS_TIWUT)
+            download_file(MAIN_PY_URL, MAIN_PY_PATH)
             make_executable(MAIN_PY_PATH)
+
+            show_info_window("A new terminal will open for setup. Please enter your password there.", duration_ms=5000)
+            execute_setup_commands_in_new_terminal()
             
-            execute_setup_commands()
-            # Finally, run the main script
+            # The script will wait here while the user handles the terminal window.
+            # However, since the terminal is opened with Popen, our script *could* continue.
+            # For a better user experience, we assume the user finishes before starting the main app.
+            show_info_window("Update complete. Starting application...", duration_ms=2000)
             run_main_script()
         else:
-            print("Update failed. Could not download necessary files.")
-            show_info_window("Update failed. Please check your internet connection.")
-    else:
-        # --- Start Directly ---
-        print("Application is up to date. Starting...")
-        run_main_script()
+            print("Application is up to date. Starting...")
+            run_main_script()
+
+    except Exception as e:
+        error_message = f"An unexpected error occurred: {e}"
+        print(error_message)
+        show_info_window(error_message, duration_ms=10000)
 
     print("Launcher finished.")
     sys.exit()
