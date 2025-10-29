@@ -3,3 +3,4 @@ v 1.1
 sudo apt install python3 python3-tk python3-pil python3-pil.imagetk python3-requests
 https://github.com/tiwut/Simple-Calculator/releases/download/Simple_Calculator/Simple_Calculator.zip
 app sys +
+icons
