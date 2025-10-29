@@ -313,19 +313,50 @@ class AppStoreClient(tk.Tk):
         else: NativeDialog(self, "Info", "No website provided for this application.")
 
     def create_shortcut(self, app):
-        if sys.platform != 'linux': NativeDialog(self, "Unsupported", "This shortcut feature is for Linux.", "error"); return
+        if sys.platform != 'linux':
+            NativeDialog(self, "Unsupported", "This shortcut feature is for Linux.", "error")
+            return
         try:
-            app_dir = os.path.join(AppConfig.INSTALL_BASE_PATH, app["name"]); main_script = os.path.join(app_dir, "main.py")
-            if not os.path.exists(main_script): NativeDialog(self, "Error", "main.py not found in app directory.", "error"); return
-            icon_path = self.icon_manager.get_icon_path(app) or ""
-            desktop_entry = f"""[Desktop Entry]\nVersion=1.0\nName={app['name']}\nComment=Launch {app['name']}\nExec=sh -c 'cd "{app_dir}" && "./main.py"'\nIcon={icon_path}\nTerminal=false\nType=Application\nCategories=Game;Application;"""
+            app_dir = os.path.join(AppConfig.INSTALL_BASE_PATH, app["name"])
+            main_script = os.path.join(app_dir, "main.py")
+            if not os.path.exists(main_script):
+                NativeDialog(self, "Error", "main.py not found in app directory.", "error")
+                return
+
+            # --- NEUE ICON-LOGIK ---
+            # Priorität 1: Lokales main.png im App-Ordner
+            # Priorität 2: Heruntergeladenes Icon aus dem Cache
+            # Priorität 3: Kein Icon
+            icon_path = ""
+            local_icon_path = os.path.join(app_dir, "main.png")
+
+            if os.path.exists(local_icon_path):
+                icon_path = local_icon_path
+            else:
+                cached_icon_path = self.icon_manager.get_icon_path(app)
+                if cached_icon_path and os.path.exists(cached_icon_path):
+                    icon_path = cached_icon_path
+            # --- ENDE NEUE ICON-LOGIK ---
+
+            desktop_entry = f"""[Desktop Entry]
+Version=1.0
+Name={app['name']}
+Comment=Launch {app['name']}
+Exec=sh -c 'cd "{app_dir}" && "./main.py"'
+Icon={icon_path}
+Terminal=false
+Type=Application
+Categories=Game;Application;
+"""
             shortcut_dir = os.path.join(os.path.expanduser('~'), '.local', 'share', 'applications')
             os.makedirs(shortcut_dir, exist_ok=True)
             shortcut_path = os.path.join(shortcut_dir, f"tiwut-{app['name'].replace(' ', '')}.desktop")
-            with open(shortcut_path, 'w', encoding='utf-8') as f: f.write(desktop_entry)
+            with open(shortcut_path, 'w', encoding='utf-8') as f:
+                f.write(desktop_entry)
             os.chmod(shortcut_path, 0o755)
             NativeDialog(self, "Success", f"Shortcut for {app['name']} created.\nIt should now appear in your application menu.")
-        except Exception as e: NativeDialog(self, "Error", f"Could not create shortcut:\n{e}", "error")
+        except Exception as e:
+            NativeDialog(self, "Error", f"Could not create shortcut:\n{e}", "error")
 
     def install_app(self, app):
         dp = self.frames["DetailsPage"]; self.progress_bar = StatusProgressBar(dp.progress_container); self.progress_bar.pack(fill='x')
