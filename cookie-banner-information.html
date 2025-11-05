@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rechtliche Hinweise - Tiwut</title>
+
+    <!-- Meta Tags -->
+    <meta name="description" content="Datenschutz, Nutzungsbedingungen und rechtliche Hinweise für Tiwut.">
+    <meta property="og:title" content="Rechtliche Hinweise - Tiwut">
+    <meta property="og:description" content="Datenschutz, Nutzungsbedingungen und rechtliche Hinweise für Tiwut.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tiwut.de/privacy.html">
+    <meta property="og:image" content="https://tiwut.de/main.avif">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-neon: #00e5ff;
+            --secondary-neon: #ff00c1;
+            --text-color: #e0e0e0;
+            --background-color: #01010c;
+            --container-bg: rgba(10, 20, 35, 0.6);
+            --glow-color: rgba(0, 229, 255, 0.5);
+        }
+
+        @keyframes pageEntryAnimation { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes text-glow { 0%, 100% { text-shadow: 0 0 5px #fff, 0 0 12px var(--primary-neon), 0 0 22px var(--primary-neon); } 50% { text-shadow: 0 0 7px #fff, 0 0 16px var(--primary-neon), 0 0 28px var(--primary-neon); } }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        #nativeAnimationCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .content-wrapper {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 2.5rem;
+            background-color: var(--container-bg);
+            border: 2px solid var(--primary-neon);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            clip-path: polygon(0 25px, 25px 0, 100% 0, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0 100%);
+            box-shadow: 0 0 25px 5px var(--glow-color);
+            animation: pageEntryAnimation 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+        
+        .language-switcher {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid rgba(0, 229, 255, 0.2);
+            padding-bottom: 1.5rem;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: 1px solid var(--primary-neon);
+            color: var(--text-color);
+            padding: 0.5rem 1rem;
+            margin: 0 0.3rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            opacity: 0.6;
+        }
+
+        .lang-btn:hover {
+            background-color: var(--glow-color);
+            opacity: 1;
+            transform: translateY(-3px);
+            box-shadow: 0 0 15px var(--glow-color);
+        }
+
+        .lang-btn.active {
+            background-color: var(--primary-neon);
+            color: var(--background-color);
+            box-shadow: 0 0 20px 5px var(--glow-color);
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        .lang-content { display: none; }
+        .lang-content.active { display: block; }
+
+        h1, h2, h3 { font-family: 'Orbitron', sans-serif; letter-spacing: 1px; color: #fff; }
+        h1 { font-size: 2.8rem; text-align: center; margin-bottom: 1.5rem; animation: text-glow 2.5s ease-in-out infinite; }
+        h2 { font-size: 1.8rem; color: var(--primary-neon); margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid var(--secondary-neon); padding-bottom: 0.5rem; text-shadow: 0 0 8px var(--primary-neon); }
+        h3 { font-size: 1.3rem; color: var(--text-color); margin-top: 1.5rem; margin-bottom: 0.5rem; }
+        p, ul { margin-bottom: 1rem; }
+        ul { list-style-position: inside; padding-left: 1rem; }
+        li { margin-bottom: 0.5rem; }
+        a { color: var(--primary-neon); text-decoration: none; transition: color 0.3s ease, text-shadow 0.3s ease; }
+        a:hover { color: #fff; text-shadow: 0 0 8px var(--primary-neon); }
+        strong { color: #fff; font-weight: 600; }
+
+        .back-button-wrapper { text-align: center; margin-top: 3rem; }
+        .back-button {
+            display: inline-block;
+            color: var(--text-color);
+            background: transparent;
+            border: 2px solid var(--secondary-neon);
+            padding: 1rem 2.2rem;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            text-decoration: none;
+            text-shadow: 0 0 5px rgba(255, 0, 193, 0.5);
+            box-shadow: inset 0 0 8px 0 rgba(255, 0, 193, 0.3);
+            clip-path: polygon(0 10px, 10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+        }
+        .back-button:hover {
+            background-color: rgba(255, 0, 193, 0.3);
+            color: #fff;
+            box-shadow: 0 0 20px 5px rgba(255, 0, 193, 0.4), inset 0 0 15px 2px rgba(255, 0, 193, 0.4);
+            transform: translateY(-5px);
+        }
+        
+        @media (max-width: 768px) {
+            .content-wrapper { margin: 1.5rem; padding: 1.5rem; }
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="nativeAnimationCanvas"></canvas>
+
+    <div class="content-wrapper">
+        <div class="language-switcher">
+            <button class="lang-btn" data-lang="de">DEUTSCH</button>
+            <button class="lang-btn" data-lang="en">ENGLISH</button>
+            <button class="lang-btn" data-lang="es">ESPAÑOL</button>
+        </div>
+
+        <!-- Deutscher Inhalt -->
+        <div id="content-de" class="lang-content">
+            <h1>Rechtliche Hinweise</h1>
+            <section>
+                <h2>Datenschutzerklärung</h2>
+                <p>Diese Website ist für den <strong>privaten und familiären Gebrauch</strong> bestimmt. Der Schutz Ihrer persönlichen Daten ist uns wichtig.</p>
+                <h3>1. Kontakt</h3>
+                <p>Deutschland<br>support@tiwut.de</p>
+                <h3>2. Datenerfassung</h3>
+                <p><strong>Server-Log-Dateien:</strong> Unser Hosting-Provider (GitHub Pages) erhebt Server-Log-Dateien bei jedem Zugriff (z.B. IP-Adresse, Browser, Uhrzeit). Diese Daten sind nicht direkt einer Person zuordenbar.</p>
+                <p><strong>Externe Dienste:</strong></p>
+                <ul>
+                    <li><strong>Google Firebase:</strong> Wir nutzen Firebase für unseren anonymen Besucherzähler. Hierbei kann Ihre IP-Adresse an Google-Server (Irland) übertragen werden.</li>
+                    <li><strong>Google Fonts:</strong> Wir nutzen Google Fonts zur Darstellung von Schriftarten, was dazu führt, dass Ihr Browser eine Verbindung zu Google-Servern aufbaut.</li>
+                    <li><strong>Local Storage:</strong> Wir verwenden den lokalen Speicher Ihres Browsers, um Einstellungen zu speichern (z.B. ob ein Banner geschlossen wurde). Diese Daten verbleiben auf Ihrem Gerät.</li>
+                </ul>
+            </section>
+            <section>
+                <h2>Nutzungsbedingungen</h2>
+                <p>Die Nutzung dieser Website und ihrer Inhalte ist ausschließlich für <strong>private, nicht-kommerzielle und familiäre Zwecke</strong> gestattet.</p>
+            </section>
+            <section>
+                <h2>Haftungsausschluss (Disclaimer)</h2>
+                <p><strong>Haftung für Inhalte & Links:</strong> Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität können wir jedoch keine Gewähr übernehmen. Dies gilt auch für externe Links, für deren Inhalt ausschließlich deren Betreiber verantwortlich sind.</p>
+            </section>
+            <section>
+                <h2>Projektinformationen & Lizenz</h2>
+                <p><strong>Hobbyprojekt:</strong> Dieses Projekt wird als privates Hobbyprojekt betrieben und verfolgt keinerlei kommerzielle Interessen.</p>
+                <p><strong>Hosting & Datenübertragung in die USA:</strong> Diese Website wird statisch über <strong>GitHub Pages</strong> gehostet. Die Server von GitHub befinden sich in den <strong>USA</strong>. Durch Ihren Besuch der Website stimmen Sie zu, dass Ihre Daten (z.B. IP-Adresse) an Server in den USA übertragen werden können.</p>
+                <p><strong>Keine Haftung:</strong> Der gesamte Inhalt und alle Funktionen werden 'wie besehen' ("as is") und ohne jegliche Garantie zur Verfügung gestellt. <strong>Jegliche Haftung für direkte oder indirekte Schäden, die aus der Nutzung dieser Website entstehen, wird hiermit ausdrücklich und vollumfänglich ausgeschlossen.</strong></p>
+                <p><strong>Open Source & MIT-Lizenz:</strong> Der Quellcode dieser Website ist öffentlich in einem Repository auf GitHub einsehbar und steht unter der <a href='https://opensource.org/licenses/MIT' target='_blank' rel='noopener noreferrer'>MIT-Lizenz</a>. Dies gewährt Ihnen weitreichende Freiheiten bei der Nutzung des Codes, schließt jedoch ebenfalls jegliche Haftung durch den Lizenzgeber aus.</p>
+            </section>
+        </div>
+
+        <!-- Englischer Inhalt -->
+        <div id="content-en" class="lang-content">
+            <h1>Legal Notice</h1>
+            <section>
+                <h2>Privacy Policy</h2>
+                <p>This website is intended for <strong>private and family use</strong>. The protection of your personal data is important to us.</p>
+                <h3>1. Contact</h3>
+                <p>Germany<br>support@tiwut.de</p>
+                <h3>2. Data Collection</h3>
+                <p><strong>Server Log Files:</strong> Our hosting provider (GitHub Pages) collects server log files with each access (e.g., IP address, browser, time). This data cannot be directly attributed to an individual.</p>
+                <p><strong>External Services:</strong></p>
+                <ul>
+                    <li><strong>Google Firebase:</strong> We use Firebase for our anonymous visitor counter. Your IP address may be transmitted to Google servers (Ireland).</li>
+                    <li><strong>Google Fonts:</strong> We use Google Fonts to display typefaces, which causes your browser to connect to Google's servers.</li>
+                    <li><strong>Local Storage:</strong> We use your browser's local storage to save settings (e.g., if a banner was dismissed). This data remains on your device.</li>
+                </ul>
+            </section>
+            <section>
+                <h2>Terms of Use</h2>
+                <p>The use of this website and its content is permitted exclusively for <strong>private, non-commercial, and family purposes</strong>.</p>
+            </section>
+            <section>
+                <h2>Disclaimer</h2>
+                <p><strong>Liability for Content & Links:</strong> The contents of our pages were created with the greatest care. However, we cannot guarantee their accuracy, completeness, or timeliness. This also applies to external links, for whose content only their operators are responsible.</p>
+            </section>
+            <section>
+                <h2>Project Information & License</h2>
+                <p><strong>Hobby Project:</strong> This project is operated as a private hobby project and has no commercial interests.</p>
+                <p><strong>Hosting & Data Transfer to the USA:</strong> This website is statically hosted via <strong>GitHub Pages</strong>. GitHub's servers are located in the <strong>USA</strong>. By visiting this site, you agree that your data (e.g., IP address) may be transferred to servers in the USA.</p>
+                <p><strong>No Liability:</strong> All content and functions are provided 'as is' and without any warranty. <strong>Any liability for direct or indirect damages resulting from the use of this website is hereby expressly and completely excluded.</strong></p>
+                <p><strong>Open Source & MIT License:</strong> The source code for this website is publicly available in a repository on GitHub and is licensed under the <a href='https://opensource.org/licenses/MIT' target='_blank' rel='noopener noreferrer'>MIT License</a>. This grants you extensive freedoms in using the code but also excludes all liability from the licensor.</p>
+            </section>
+        </div>
+        
+        <!-- Spanischer Inhalt -->
+        <div id="content-es" class="lang-content">
+            <h1>Aviso Legal</h1>
+            <section>
+                <h2>Política de Privacidad</h2>
+                <p>Este sitio web está destinado para <strong>uso privado y familiar</strong>. La protección de sus datos personales es importante para nosotros.</p>
+                <h3>1. Contacto</h3>
+                <p>Alemania<br>support@tiwut.de</p>
+                <h3>2. Recopilación de Datos</h3>
+                <p><strong>Archivos de Registro del Servidor:</strong> Nuestro proveedor de alojamiento (GitHub Pages) recopila archivos de registro del servidor con cada acceso (p. ej., dirección IP, navegador, hora). Estos datos no se pueden atribuir directamente a una persona.</p>
+                <p><strong>Servicios Externos:</strong></p>
+                <ul>
+                    <li><strong>Google Firebase:</strong> Usamos Firebase para nuestro contador de visitas anónimo. Su dirección IP puede ser transmitida a servidores de Google (Irlanda).</li>
+                    <li><strong>Google Fonts:</strong> Usamos Google Fonts para mostrar las fuentes, lo que hace que su navegador se conecte a los servidores de Google.</li>
+                    <li><strong>Local Storage:</strong> Usamos el almacenamiento local de su navegador para guardar configuraciones (p. ej., si se cerró un banner). Estos datos permanecen en su dispositivo.</li>
+                </ul>
+            </section>
+            <section>
+                <h2>Términos de Uso</h2>
+                <p>El uso de este sitio web y su contenido está permitido exclusivamente para <strong>fines privados, no comerciales y familiares</strong>.</p>
+            </section>
+            <section>
+                <h2>Descargo de Responsabilidad</h2>
+                <p><strong>Responsabilidad por Contenido y Enlaces:</strong> El contenido de nuestras páginas ha sido creado con el máximo cuidado. Sin embargo, no podemos garantizar su exactitud, integridad o actualidad. Esto también se aplica a los enlaces externos, de cuyo contenido son responsables exclusivamente sus operadores.</p>
+            </section>
+            <section>
+                <h2>Información del Proyecto y Licencia</h2>
+                <p><strong>Proyecto de Afición:</strong> Este proyecto se gestiona como un proyecto personal de afición (hobby) y no persigue ningún interés comercial.</p>
+                <p><strong>Alojamiento y Transferencia de Datos a EE. UU.:</strong> Este sitio web está alojado estáticamente a través de <strong>GitHub Pages</strong>. Los servidores de GitHub se encuentran en los <strong>EE. UU.</strong> Al visitar este sitio, usted acepta que sus datos (p. ej., dirección IP) puedan ser transferidos a servidores en los EE. UU.</p>
+                <p><strong>Exclusión de Responsabilidad:</strong> Todo el contenido y las funciones se proporcionan 'tal cual' ("as is") y sin ninguna garantía. <strong>Se excluye expresamente y por completo cualquier responsabilidad por daños directos o indirectos que resulten del uso de este sitio web.</strong></p>
+                <p><strong>Código Abierto y Licencia MIT:</strong> El código fuente de este sitio web está disponible públicamente en un repositorio en GitHub y está bajo la <a href='https://opensource.org/licenses/MIT' target='_blank' rel='noopener noreferrer'>Licencia MIT</a>. Esto le otorga amplias libertades para usar el código, pero también excluye toda responsabilidad por parte del licenciante.</p>
+            </section>
+        </div>
+
+        <div class="back-button-wrapper">
+            <a href="https://tiwut.de" class="back-button">Zurück zur Hauptseite</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const canvas = document.getElementById('nativeAnimationCanvas');
+            const ctx = canvas.getContext('2d');
+            let stars = [];
+            const numStars = 250;
+            const speed = 0.05;
+            let width, height, centerX, centerY;
+            class Star { constructor() { this.reset(); } reset() { this.x = (Math.random() - 0.5) * 200; this.y = (Math.random() - 0.5) * 200; this.z = Math.random() * width; } update() { this.z -= speed; if (this.z < 1) { this.reset(); } } draw() { const x = (this.x / this.z) * width + centerX; const y = (this.y / this.z) * height + centerY; const size = (1 - this.z / width) * 2.5; const alpha = (1 - this.z / width) * 0.8; if (x > 0 && x < width && y > 0 && y < height) { ctx.beginPath(); ctx.arc(x, y, size, 0, Math.PI * 2); ctx.fillStyle = `rgba(224, 224, 224, ${alpha})`; ctx.fill(); } } }
+            function setupAndResize() { width = window.innerWidth; height = window.innerHeight; canvas.width = width; canvas.height = height; centerX = width / 2; centerY = height / 2; stars = []; for (let i = 0; i < numStars; i++) { stars.push(new Star()); } }
+            function animate() { ctx.fillStyle = '#01010c'; ctx.fillRect(0, 0, width, height); stars.forEach(star => { star.update(); star.draw(); }); requestAnimationFrame(animate); }
+            window.addEventListener('resize', setupAndResize);
+            setupAndResize();
+            animate();
+            
+            const langButtons = document.querySelectorAll('.lang-btn');
+            const langContents = document.querySelectorAll('.lang-content');
+            const backButton = document.querySelector('.back-button');
+            const backButtonTranslations = { de: 'Zurück zur Hauptseite', en: 'Back to Main Page', es: 'Volver a la Página Principal' };
+            function setLanguage(lang) {
+                langContents.forEach(content => { content.classList.remove('active'); if (content.id === `content-${lang}`) { content.classList.add('active'); } });
+                langButtons.forEach(btn => { btn.classList.remove('active'); if (btn.dataset.lang === lang) { btn.classList.add('active'); } });
+                document.documentElement.lang = lang;
+                backButton.textContent = backButtonTranslations[lang];
+                const titles = { de: 'Rechtliche Hinweise - Tiwut', en: 'Legal Notice - Tiwut', es: 'Aviso Legal - Tiwut' };
+                document.title = titles[lang];
+                localStorage.setItem('tiwut_legal_lang', lang);
+            }
+            langButtons.forEach(button => { button.addEventListener('click', () => { setLanguage(button.dataset.lang); }); });
+            const savedLang = localStorage.getItem('tiwut_legal_lang');
+            const browserLang = (navigator.language || navigator.userLanguage || 'de').slice(0, 2);
+            if (savedLang && ['de', 'en', 'es'].includes(savedLang)) { setLanguage(savedLang); } else if (['de', 'en', 'es'].includes(browserLang)) { setLanguage(browserLang); } else { setLanguage('de'); }
+        });
+    </script>
+</body>
+</html>
