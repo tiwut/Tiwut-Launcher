@@ -2,30 +2,43 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QStackedWidget>
-#include <QListWidget>
+#include "appdata.h"
 
-class MainWindow : public QMainWindow {
+class QStackedWidget;
+class QListWidget;
+class AppManager;
+class DetailsPage;
+class AppGridViewPage;
+
+class MainWindow : public QMainWindow
+{
     Q_OBJECT
 
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+public slots:
+    void showDetailsPage(const AppData &app, const QString &sourcePage);
+
 private slots:
-    void onNavigationItemSelected(QListWidgetItem *item);
+    void onLibraryLoaded();
+    void onNavigationChanged(int index);
+    void goBackToPage(const QString &sourcePage);
+    void updatePages();
 
 private:
     void setupUi();
-    void setupConnections();
+    void applyStyles();
+    void createPages();
 
-    QWidget *centralWidget;
-    QListWidget *navigationList;
-    QStackedWidget *stackedWidget;
+    QStackedWidget *m_stackedWidget;
+    QListWidget *m_navRail;
+    AppManager *m_appManager;
 
-    // Seiten-Widgets
-    QWidget *discoverPage;
-    QWidget *libraryPage;
+    AppGridViewPage *m_discoverPage;
+    AppGridViewPage *m_libraryPage;
+    DetailsPage *m_detailsPage;
 };
 
-#endif // MAINWINDOW_H
+#endif
