@@ -135,7 +135,7 @@ class TiwutLauncher(tk.Tk):
         self.main_frame = tk.Frame(self, bg=STYLE["background"])
         self.main_frame.pack(fill=tk.BOTH, expand=True)
 
-        self.library_url = "https://launcher.tiwut.de/library.tiwut"
+        self.library_url = "https://tiwut.github.io/Tiwut-Launcher/library.tiwut"
         self.apps = self.load_library_from_url()
         self.create_home_page()
 

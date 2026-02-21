@@ -1,8 +1,8 @@
 #!/bin/bash
 
 APP_DIR="$HOME/.local/share/Tiwut/Tiwut-Launcher"
-APP_URL="https://launcher.tiwut.de/Linux/Updater/main.py"
-ICON_URL="https://launcher.tiwut.de/Linux/icon.png"
+APP_URL="https://tiwut.github.io/Tiwut-Launcher/Linux/Updater/main.py"
+ICON_URL="https://tiwut.github.io/Tiwut-Launcher/Linux/icon.png"
 ICON_NAME="tiwut-launcher.png"
 ICON_DIR="$HOME/.local/share/icons"
 DESKTOP_FILE_DIR="$HOME/.local/share/applications"

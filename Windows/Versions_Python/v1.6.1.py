@@ -136,7 +136,7 @@ class TiwutLauncher(tk.Tk):
         self.title_bar.bind("<B1-Motion>", self.on_motion)
         self.main_frame = tk.Frame(self.content_frame, bg=STYLE["background"])
         self.main_frame.pack(fill=tk.BOTH, expand=True)
-        self.library_url = "https://launcher.tiwut.de/library.tiwut"
+        self.library_url = "https://tiwut.github.io/Tiwut-Launcher/library.tiwut"
         self.apps = self.load_library_from_url()
         self.create_home_page()
     def draw_background(self, event=None):

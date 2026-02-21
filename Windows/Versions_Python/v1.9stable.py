@@ -163,7 +163,7 @@ class TiwutLauncher(tk.Tk):
         super().__init__()
         self.overrideredirect(True); self.geometry("1100x700"); self.attributes("-transparentcolor",STYLE["transparent_color"]); self.config(bg=STYLE["transparent_color"]); self.bg_canvas = tk.Canvas(self, bg=STYLE["transparent_color"], highlightthickness=0); self.bg_canvas.pack(fill="both", expand=True); self.bind("<Configure>", self._draw_background); self.content_frame = tk.Frame(self, bg=STYLE["background"]); self.bg_canvas.create_window(0, 0, anchor="nw", window=self.content_frame); self._create_title_bar()
         container = tk.Frame(self.content_frame, bg=STYLE["background"]); container.pack(fill=tk.BOTH, expand=True); container.grid_rowconfigure(0, weight=1); container.grid_columnconfigure(0, weight=1)
-        self.library_url = "https://launcher.tiwut.de/library.tiwut"; self.apps = self.load_library_from_url()
+        self.library_url = "https://tiwut.github.io/Tiwut-Launcher/library.tiwut"; self.apps = self.load_library_from_url()
         self.frames = {}
         for F in (HomePage, DiscoverPage, DetailsPage):
             frame = F(container, self); self.frames[F.__name__] = frame

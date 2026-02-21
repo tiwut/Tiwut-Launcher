@@ -25,7 +25,7 @@ class AppConfig:
     ICON_CACHE_DIR = os.path.join(APP_DATA_DIR, 'icon_cache')
     INSTALL_SUBDIR = "TiwutApps"
     INSTALL_BASE_PATH = os.path.join(os.path.expanduser('~'), 'Documents', INSTALL_SUBDIR)
-    DEFAULT_LIBRARY_URLS = ["https://launcher.tiwut.de/library.tiwut"]
+    DEFAULT_LIBRARY_URLS = ["https://tiwut.github.io/Tiwut-Launcher/library.tiwut"]
     
     STYLE = {
         "theme": "clam",

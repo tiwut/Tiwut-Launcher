@@ -24,7 +24,7 @@ class AppConfig:
     INSTALL_SUBDIR = "TiwutApps"
     INSTALL_BASE_PATH = os.path.join(os.environ.get("ProgramFiles", "C:\\Program Files"), INSTALL_SUBDIR)
     
-    LIBRARY_URL = "https://launcher.tiwut.de/library.tiwut"
+    LIBRARY_URL = "https://tiwut.github.io/Tiwut-Launcher/library.tiwut"
 
     # Style configuration using a clean, dark theme compatible with ttk widgets.
     STYLE = {

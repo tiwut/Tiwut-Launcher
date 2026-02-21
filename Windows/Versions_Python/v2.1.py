@@ -34,7 +34,7 @@ class AppConfig:
     INSTALL_SUBDIR = "TiwutApps"
     INSTALL_BASE_PATH = os.path.join(os.path.expanduser('~'), 'Documents', INSTALL_SUBDIR)
     
-    LIBRARY_URL = "https://launcher.tiwut.de/library.tiwut"
+    LIBRARY_URL = "https://tiwut.github.io/Tiwut-Launcher/library.tiwut"
 
     STYLE = {
         "theme": "clam",

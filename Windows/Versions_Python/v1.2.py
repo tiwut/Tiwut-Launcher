@@ -16,7 +16,7 @@ class TiwutLauncher(tk.Tk):
         self.geometry("800x600")
 
         # Die URL zur Online-Bibliothek
-        self.library_url = "https://launcher.tiwut.de/library.tiwut"
+        self.library_url = "https://tiwut.github.io/Tiwut-Launcher/library.tiwut"
         self.apps = self.load_library_from_url()
 
         self.main_frame = tk.Frame(self)

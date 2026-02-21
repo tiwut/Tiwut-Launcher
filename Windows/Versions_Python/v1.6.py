@@ -115,7 +115,7 @@ class TiwutLauncher(tk.Tk):
         tk.Button(self.title_bar, text='X', command=self.destroy, bg=STYLE["widget_bg"], fg=STYLE["primary_neon"], relief="flat", font=("Consolas", 10, "bold")).pack(side='right', padx=5)
         self.title_bar.bind("<ButtonPress-1>", self.start_move); self.title_bar.bind("<ButtonRelease-1>", self.stop_move); self.title_bar.bind("<B1-Motion>", self.on_motion)
         self.main_frame = tk.Frame(self.content_frame, bg=STYLE["background"]); self.main_frame.pack(fill=tk.BOTH, expand=True)
-        self.library_url = "https://launcher.tiwut.de/library.tiwut"
+        self.library_url = "https://tiwut.github.io/Tiwut-Launcher/library.tiwut"
         self.apps = self.load_library_from_url(); self.create_home_page()
     
     def draw_background(self, event=None):

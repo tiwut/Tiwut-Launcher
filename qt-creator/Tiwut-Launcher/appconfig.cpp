@@ -7,7 +7,7 @@ const QString AppConfig::ICON_CACHE_DIR = AppConfig::APP_DATA_DIR + "/icon_cache
 const QString AppConfig::INSTALL_SUBDIR = "TiwutApps";
 const QString AppConfig::INSTALL_BASE_PATH = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/" + AppConfig::INSTALL_SUBDIR;
 
-const QString AppConfig::LIBRARY_URL = "https://launcher.tiwut.de/library.tiwut";
+const QString AppConfig::LIBRARY_URL = "https://tiwut.github.io/Tiwut-Launcher/library.tiwut";
 
 const QColor AppConfig::Background    = QColor(46, 46, 46);
 const QColor AppConfig::Primary       = QColor(60, 60, 60);
