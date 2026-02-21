@@ -1,3 +1,5 @@
+# ‼️The launcher is currently not working due to a domain change.‼️
+
 # 🚀 Tiwut-Launcher
 
 The **Tiwut-Launcher** is the official desktop client designed to provide easy access to all applications developed as part of the **Tiwut** hobby project. It functions as an application store and launcher, allowing users to discover, install, and manage Tiwut's desktop applications.
