@@ -1,4 +1,4 @@
-# ‼️The launcher is currently not working due to a domain change.‼️
+# ‼️The launcher is currently not working due to a domain change.
 
 # 🚀 Tiwut-Launcher
 
