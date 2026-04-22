@@ -1,13 +1,5 @@
 [
   {
-    "id": "dev_app_1",
-    "name": "dev app",
-    "description": "dev tool",
-    "icon": "https://tiwut.org/assets/images/TiwutOS_v1.5_screenshot_156789243.png",
-    "download_url": "https://raw.githubusercontent.com/tiwut/Nexus-the-programming-language/refs/heads/main/Samples/calculator.nx",
-    "version": "1.0"
-  }
-  {
     "id": "dev_app_2",
     "name": "dev app 2",
     "description": "dev tool 2",
