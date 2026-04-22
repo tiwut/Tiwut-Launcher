@@ -1,55 +1,63 @@
-# ‼️The launcher is currently not working due to a domain change.
+# Tiwut Launcher
 
-# 🚀 Tiwut-Launcher
+The **Tiwut Launcher** is the official desktop client designed to provide easy access to all applications developed as part of the Tiwut hobby project. It functions as an application store and launcher, allowing users to discover, install, and manage Tiwut's desktop applications seamlessly.
 
-The **Tiwut-Launcher** is the official desktop client designed to provide easy access to all applications developed as part of the **Tiwut** hobby project. It functions as an application store and launcher, allowing users to discover, install, and manage Tiwut's desktop applications.
+Powered by the **Nexus** interpreter.
 
-The Tiwut project's full collection of repositories can be found on GitHub: [https://github.com/tiwut?tab=repositories](https://github.com/tiwut?tab=repositories)
+## Features
 
-## ✨ Features
+- **App Library:** Browse, discover, and install applications developed by the Tiwut Project directly from the cloud.
+- **App Management:** One-click installation, launching, and uninstallation of your favorite applications.
+- **Nexus Interpreter Integration:** Automatically handles application execution using the custom Nexus script interpreter.
+- **Modern UI:** A clean, glassmorphism-inspired dark theme designed for a modern desktop experience.
+- **In-App Updates:** Keep your Nexus interpreter up-to-date directly from the Launcher's settings menu.
+- **Quick Search:** Find apps instantly using the built-in search bar.
 
-* **Application Hub:** Centralized access to all desktop applications from the Tiwut hobby project.
-* **Cross-Platform Support:** Dedicated versions for both Windows and Linux, built from separate source files (`v2.5stable.py` for Windows and `main.py` for Linux).
-* **Intuitive UI:** Built using `tkinter` and `ttk` to provide a clean application store experience.
-* **Linux Edition Adapations (in `main.py`):**
-    * Uses Linux-standard directories (`~/.config`, `~/.local/share`) for application data.
-    * Creates `.desktop` files for application shortcuts.
-    * Uses Linux-standard executable names ("main" instead of "main.exe").
-* **Installation/Uninstallation:** Manage your installed Tiwut applications directly through the launcher.
+## Getting Started
 
-## 💻 Installation
+### Prerequisites
 
-The Tiwut-Launcher is provided with platform-specific installers in the GitHub Releases section.
+- C++17 compatible compiler
+- Qt 6 (Core, Gui, Widgets, Network modules)
+- CMake 3.16 or higher
 
-**Latest Releases:** [https://github.com/tiwut/Tiwut-Launcher/releases](https://github.com/tiwut/Tiwut-Launcher/releases)
+### Build Instructions
 
-### Windows
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/tiwut/Tiwut-Launcher.git
+   cd Tiwut-Launcher
+   ```
 
-Download and run the installer (`.exe` installer) from the official GitHub releases page.
+2. Create a build directory and configure the project:
+   ```bash
+   mkdir build && cd build
+   cmake ..
+   ```
 
-### Linux (Debian/Ubuntu-based systems)
+3. Compile the project:
+   ```bash
+   make
+   ```
 
-A shell script installer is provided for convenience.
+4. Run the Launcher:
+   ```bash
+   ./NexusLauncher
+   ```
+   *(Note: Ensure that the `nexus` executable is located in the same directory as the launcher, or update it directly via the in-app settings menu).*
 
-1.  Download the `install-tiwut-launcher.sh` script from the latest [GitHub Releases](https://github.com/tiwut/Tiwut-Launcher/releases).
-2.  Open a terminal, navigate to the download directory, and execute the script:
+## Project Details
 
-    ```bash
-    chmod +x install-tiwut-launcher.sh
-    ./install-tiwut-launcher.sh
-    ```
+- **Version:** v4.1.2
+- **Developer:** Tiwut
+- **Website:** [tiwut.org](https://tiwut.org)
 
-    The script downloads the main Python application file (`main.py`), makes it executable, and creates standard application and desktop shortcuts.
+## License
 
-## 🛠️ Source Code
+This project is licensed under the MIT License. 
 
-The project is written in Python with a graphical interface powered by `tkinter`.
+Copyright (c) 2026 Tiwut
 
-| Platform | Source File | Description |
-| :--- | :--- | :--- |
-| **Linux Edition** | `main.py` | Source code specifically adapted for Linux systems (using Linux directories and standards). |
-| **Windows Edition** | `v2.5stable.py` | Source code for the Windows version (uses Windows-specific directories and naming conventions). |
+---
 
-## 🔗 Project Links
-
-* **Tiwut Project Repositories:** [https://github.com/tiwut?tab=repositories](https://github.com/tiwut?tab=repositories)
+*Developed with ❤️ by the Tiwut Project.*

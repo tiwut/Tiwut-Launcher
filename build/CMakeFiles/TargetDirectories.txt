@@ -1,0 +1,5 @@
+/home/tiwut/Documents/Dev/Launcher/build/CMakeFiles/NexusLauncher.dir
+/home/tiwut/Documents/Dev/Launcher/build/CMakeFiles/edit_cache.dir
+/home/tiwut/Documents/Dev/Launcher/build/CMakeFiles/rebuild_cache.dir
+/home/tiwut/Documents/Dev/Launcher/build/CMakeFiles/NexusLauncher_autogen_timestamp_deps.dir
+/home/tiwut/Documents/Dev/Launcher/build/CMakeFiles/NexusLauncher_autogen.dir

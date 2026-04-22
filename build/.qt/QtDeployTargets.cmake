@@ -1,0 +1,2 @@
+set(__QT_DEPLOY_TARGET_NexusLauncher_FILE /home/tiwut/Documents/Dev/Launcher/build/NexusLauncher)
+set(__QT_DEPLOY_TARGET_NexusLauncher_TYPE EXECUTABLE)
