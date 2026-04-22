@@ -8,29 +8,22 @@ import subprocess
 import ssl
 import shutil
 
-# --- WICHTIGSTE ÄNDERUNG: ABSOLUTE PFADE ERMITTELN ---
-# Ermittelt den absoluten Pfad des Verzeichnisses, in dem sich dieses Skript befindet.
-# Das macht das Skript standortunabhängig und löst alle Pfadprobleme.
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# --- Konfiguration (verwendet jetzt absolute Pfade) ---
 SYS_TIWUT_URL = "http://launcher.tiwut.de/Linux/sys.tiwut"
 MAIN_PY_URL = "http://launcher.tiwut.de/Linux/Launcher/main.py"
 COMMANDS_URL = "http://launcher.tiwut.de/Linux/Updater/sys_modul.tiwut"
 
-# Erstellt absolute Pfade für alle lokalen Dateien und Ordner
 LOCAL_SYS_TIWUT = os.path.join(SCRIPT_DIR, "sys.tiwut")
 LAUNCHER_DIR = os.path.join(SCRIPT_DIR, "Launcher")
 MAIN_PY_PATH = os.path.join(LAUNCHER_DIR, "main.py")
 COMMANDS_FILE_PATH = os.path.join(SCRIPT_DIR, "sys_modul.tiwut")
 
-# --- SSL Context ---
 try:
     ssl_context = ssl._create_unverified_context()
 except AttributeError:
     pass
 
-# --- Funktionen (unverändert, aber arbeiten jetzt mit absoluten Pfaden) ---
 
 def show_info_window(message, duration_ms=4000):
     root = tk.Tk()
@@ -70,7 +63,6 @@ def download_file(url, local_path):
         raise ConnectionError(f"Network error while downloading {url}: {e}")
 
     try:
-        # Diese Zeile funktioniert jetzt zuverlässig, da local_path absolut ist
         os.makedirs(os.path.dirname(local_path), exist_ok=True)
         with open(local_path, 'wb') as out_file:
             out_file.write(data)
@@ -137,7 +129,6 @@ def run_main_script():
     print(f"Attempting to start {MAIN_PY_PATH}...")
     subprocess.Popen(["python3", MAIN_PY_PATH])
 
-# --- Hauptlogik ---
 
 if __name__ == "__main__":
     try:

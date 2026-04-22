@@ -323,10 +323,6 @@ class AppStoreClient(tk.Tk):
                 NativeDialog(self, "Error", "main.py not found in app directory.", "error")
                 return
 
-            # --- NEUE ICON-LOGIK ---
-            # Priorität 1: Lokales main.png im App-Ordner
-            # Priorität 2: Heruntergeladenes Icon aus dem Cache
-            # Priorität 3: Kein Icon
             icon_path = ""
             local_icon_path = os.path.join(app_dir, "main.png")
 
@@ -336,7 +332,6 @@ class AppStoreClient(tk.Tk):
                 cached_icon_path = self.icon_manager.get_icon_path(app)
                 if cached_icon_path and os.path.exists(cached_icon_path):
                     icon_path = cached_icon_path
-            # --- ENDE NEUE ICON-LOGIK ---
 
             desktop_entry = f"""[Desktop Entry]
 Version=1.0
