@@ -46,6 +46,20 @@ Powered by the **Nexus** interpreter.
    ```
    *(Note: Ensure that the `nexus` executable is located in the same directory as the launcher, or update it directly via the in-app settings menu).*
 
+## Installation Note (macOS)
+
+If you see an error stating the app is "damaged" or "cannot be verified," macOS has placed the app in quarantine because it is from an unidentified developer.
+
+To fix this, open your **Terminal**, navigate to the folder containing the app, and run:
+
+Bash
+
+xattr -cr "Tiwut Launcher.app"
+
+### Why is this necessary?
+
+As an open-source project, this app is not digitally signed by Apple. This command removes the "quarantine" flag, allowing the app to launch normally. After running the command, you can open the app.
+
 ## Project Details
 
 - **Version:** v4.1.2
