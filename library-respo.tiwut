@@ -1,15 +1,15 @@
 [
   {
-    "id": "dev_app_2",
-    "name": "dev app 2",
+    "id": "todo.dev.app",
+    "name": "Todo Dev",
     "description": "dev tool 2",
     "icon": "https://a.fsdn.com/con/app/proj/tiwut-launcher/screenshots/Screenshot%202025-10-18%20094740-58708480.png",
     "download_url": "https://raw.githubusercontent.com/tiwut/Nexus-the-programming-language/refs/heads/main/Samples/todo.nx",
     "version": "1.1"
   },
   {
-    "id": "dev_app_1",
-    "name": "dev app 1",
+    "id": "system.monitor.dev.app",
+    "name": "System Monitor",
     "description": "dev tool 1",
     "icon": "https://tiwut.org/assets/images/Tiwut_universe_main_8454656.jpg",
     "download_url": "https://raw.githubusercontent.com/tiwut/Nexus-the-programming-language/refs/heads/main/Samples/system_monitor.nx",
