@@ -16,3 +16,4 @@ add_executable(NexusLauncher
 )
 
 target_link_libraries(NexusLauncher PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Network)
+install(TARGETS NexusLauncher DESTINATION bin)
