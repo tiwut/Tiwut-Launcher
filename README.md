@@ -4,6 +4,17 @@ The **Tiwut Launcher** is the official desktop client designed to provide easy a
 
 Powered by the **Nexus** interpreter.
 
+## Install on Mac & Linux
+```bash
+brew tap tiwut/tab https://github.com/tiwut/homebrew-tap.git
+brew update
+brew install tiwut-launcher
+```
+run with:
+```bash
+Tiwut-Launcher
+```
+
 ## Features
 
 - **App Library:** Browse, discover, and install applications developed by the Tiwut Project directly from the cloud.
