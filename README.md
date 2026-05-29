@@ -63,9 +63,9 @@ If you see an error stating the app is "damaged" or "cannot be verified," macOS 
 
 To fix this, open your **Terminal**, navigate to the folder containing the app, and run:
 
-Bash
-
+```bash
 xattr -cr "Tiwut Launcher.app"
+```
 
 ### Why is this necessary?
 
