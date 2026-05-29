@@ -1,7 +1,35 @@
 {
   "mac": [
-    "tiwut/MacOS-AirBridge-Pro"
+    {
+      "repo": "tiwut/MacOS-AirBridge-Pro",
+      "description": "AirBridge Pro is a native, high-performance, ultra-lightweight macOS desktop application written in Swift and SwiftUI.",
+      "releases": [
+        {
+          "name": "wifi-bridge-v1.2.dmg",
+          "url": "https://github.com/tiwut/MacOS-AirBridge-Pro/releases/download/v1.1.1/Tiwut-AirBridge-Pro.dmg",
+          "size": 3070000
+        }
+      ]
+    },
+    {
+      "repo": "tiwut/my-cmake-tool",
+      "description": "A terminal helper written in C++. Builds from source."
+    }
   ],
-  "windows": [],
-  "linux": []
+  "windows": [
+    {
+      "repo": "tiwut/wifi-bridge",
+      "description": "Premium native macOS Wifi Bridge and Repeater.",
+      "releases": [
+        {
+          "name": "wifi-bridge-v1.2-setup.exe",
+          "url": "https://github.com/tiwut/wifi-bridge/releases/download/v1.2/wifi-bridge-v1.2-setup.exe",
+          "size": 18500000
+        }
+      ]
+    }
+  ],
+  "linux": [
+    "tiwut/my-cmake-tool"
+  ]
 }
