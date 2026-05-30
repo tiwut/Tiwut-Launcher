@@ -20,6 +20,9 @@
 
 ## **TiwutOS Edition**
 *-*
+
+## **Python(only) Edition**
+*-*
 ___
 
 ## Project Update: Multi-Platform Support & Collaboration
