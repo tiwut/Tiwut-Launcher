@@ -3,7 +3,23 @@
 ## **MacOS Edition:**
 *https://github.com/tiwut/Tiwut-Launcher-MacOS*
 
+## **Linux Edition**
+*-*
 
+## **Android Edition**
+*-*
+
+## **Windows Edition**
+*-*
+
+## **PWA Edition**
+*-*
+
+## **iOS Edition**
+*-*
+
+## **TiwutOS Edition**
+*-*
 ___
 
 ## Project Update: Multi-Platform Support & Collaboration
