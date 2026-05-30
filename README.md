@@ -1,3 +1,9 @@
+MacOS Edition:
+https://github.com/tiwut/Tiwut-Launcher-MacOS            <-
+
+
+
+
 # Project Update: Multi-Platform Support & Collaboration
 The launcher is currently undergoing a complete redesign to provide dedicated, native support for multiple platforms. To facilitate this development, separate repositories will be established for the Windows, Linux, and macOS versions.
 
