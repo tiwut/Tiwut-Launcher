@@ -1,5 +1,7 @@
-MacOS Edition:
-https://github.com/tiwut/Tiwut-Launcher-MacOS            <-
+# Tiwut-Launcher
+
+## **MacOS Edition:**
+*https://github.com/tiwut/Tiwut-Launcher-MacOS*
 
 
 
