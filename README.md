@@ -4,7 +4,7 @@
 *https://github.com/tiwut/Tiwut-Launcher-MacOS*
 
 ## **Linux Edition**
-*-*
+*https://github.com/tiwut/Tiwut-Launcher-Linux*
 
 ## **Android Edition**
 *-*
