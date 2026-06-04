@@ -1,10 +1,10 @@
 # Tiwut Launcher
 
 ## **MacOS Edition:**
-*+* [README](https://raw.githubusercontent.com/tiwut/Tiwut-Launcher-MacOS/refs/heads/main/README.md)
+*+* [Respo](https://github.com/tiwut/Tiwut-Launcher-MacOS)
 
 ## **Linux Edition**
-*+* [README](https://raw.githubusercontent.com/tiwut/Tiwut-Launcher-Linux/refs/heads/main/README.md)
+*+* [Respo](https://github.com/tiwut/Tiwut-Launcher-Linux)
 
 ___
 
