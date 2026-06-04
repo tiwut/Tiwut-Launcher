@@ -1,28 +1,11 @@
 # Tiwut-Launcher
 
 ## **MacOS Edition:**
-*https://github.com/tiwut/Tiwut-Launcher-MacOS*
+[README](https://raw.githubusercontent.com/tiwut/Tiwut-Launcher-MacOS/refs/heads/main/README.md)
 
 ## **Linux Edition**
-*https://github.com/tiwut/Tiwut-Launcher-Linux*
+[README](https://raw.githubusercontent.com/tiwut/Tiwut-Launcher-Linux/refs/heads/main/README.md)
 
-## **Android Edition**
-*-*
-
-## **Windows Edition**
-*-*
-
-## **PWA Edition**
-*-*
-
-## **iOS Edition**
-*-*
-
-## **TiwutOS Edition**
-*-*
-
-## **Python(only) Edition**
-*-*
 ___
 
 ## Project Update: Multi-Platform Support & Collaboration
